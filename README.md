@@ -1,2 +1,2 @@
 # Commander
-The best File Manager
+A Swift library useful for operations on tarballs.
