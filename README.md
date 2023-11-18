@@ -1,5 +1,5 @@
 # BData
-[![GitHub release](https://img.shields.io/github/v/release/lucamazzza/BData?color=green&label=latest%20release&sort=semver)](https://github.com/mazluc/Dirfactory/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/lucamazzza/BData?color=green&label=latest%20release&sort=semver)](https://github.com/lucamazzza/BData/releases/latest)
 [![JDK Version](https://img.shields.io/badge/JDK-17_or_later-green.svg)](https://www.oracle.com/java/technologies/downloads/#java17)
 [![Discord Badge](https://img.shields.io/discord/1119987238202261664?color=5865F2&label=&logo=discord&logoColor=white)](https://discord.gg/6JbSYbbv)
 ![](https://img.shields.io/badge/License-MIT-purple)
