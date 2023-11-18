@@ -8,12 +8,12 @@ BData is a library to manage data using better, dynamic, weakly-typed data types
 It is written in Java, based on Java's standard Arrays, for high compatibility.
 
 
-* [Features]()
-* [Requirements]()
-* [Installation]()
-* [Usage]()
-* [Credits]()
-* [License]()
+* [Features](#Features)
+* [Requirements](#Requirements)
+* [Installation](#Installation)
+* [Usage](#Usage)
+* [Credits](#Credits)
+* [License](#License)
 
 ## Features
 
