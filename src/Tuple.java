@@ -16,7 +16,7 @@ import static java.lang.System.arraycopy;
  * @version 1.0
  * @since 1.0
  */
-public class Tuple implements TData {
+public class Tuple implements Data {
 
     /**
      * Constant containing the types of values that the tuple can contain
@@ -66,6 +66,16 @@ public class Tuple implements TData {
         arraycopy(values, 0, this.values, 0, values.length);
         this.clearNulls();
 
+    }
+  
+    /**
+     * Determines if the given object is an instance of Tuple.
+     *
+     * @param obj the object to be checked
+     * @return  true if the object is an instance of Tuple, false otherwise
+     */
+    public static boolean isTuple(Object obj) {
+        return obj.getClass() == Tuple.class;
     }
 
     /**
@@ -396,8 +406,10 @@ public class Tuple implements TData {
      * @return a tuple with the sorted Typed values
      * @since 1.0
      */
-    private static TData sortType(TData values, Class<?> type) {
-        TData tuple = values.getValuesOfType(type);
+    private static Tuple sortType(Object values, Class<?> type) {
+        if (values.getClass() != Tuple.class) { return new Tuple(); }
+        Tuple vals = (Tuple) values;
+        Tuple tuple = (Tuple) vals.getValuesOfType(type);
         for (int i = 1; i < tuple.length(); i++) {
             if (type == TYPES[0]) { // boolean
                 if ((boolean) tuple.getValue(i) && ! (boolean) tuple.getValue(i - 1)) {
@@ -546,12 +558,14 @@ public class Tuple implements TData {
      * @param data the new tuple
      * @since 1.0
      */
-    public void split(int index, TData data){
+    public void split(int index, Object data) throws UnsupportedOperationException {
+        if (data.getClass() != Tuple.class) { throw new UnsupportedOperationException(); }
+        Tuple tmp = (Tuple) data;
         Object[] newValues = new Object[index];
         Object[] newValues2 = new Object[this.values.length - index];
         if (this.values.length - index >= 0)
             arraycopy(this.values, index, newValues2, 0, this.values.length - index);
-        data.setValues(newValues2);
+        tmp.setValues(newValues2);
         arraycopy(this.values, 0, newValues, 0, index);
         this.setValues(newValues);
     }
@@ -559,14 +573,16 @@ public class Tuple implements TData {
     /**
      * Joins two tuples into one
      *
-     * @param tuples the tuples to join
+     * @param datas the tuples to join
      * @since 1.0
      */
     @Override
-    public void join(TData... tuples){
-        for (TData tuple : tuples) {
-            for (int i = 0; i < tuple.length(); i++){
-                this.push(tuple.getValue(i));
+    public void join(Object... datas){
+        for (Object data : datas) {
+            if (data.getClass() != Tuple.class){ continue; }
+            Tuple tmp = (Tuple) data;
+            for (int i = 0; i < tmp.length(); i++){
+                this.push(tmp.getValue(i));
             }
         }
     }
@@ -605,12 +621,15 @@ public class Tuple implements TData {
     /**
      * Determines if this tuple is a subset of the given tuple.
      *
-     * @param tuple the tuple to check against
+     * @param data the tuple to check against
      * @return true if this tuple is a subset of the given tuple, false otherwise
      */
-    public boolean isSubsetOf(TData tuple){
+    @Override
+    public boolean isSubsetOf(Object data){
+        if (data.getClass() != Tuple.class) {return false;}
+        Tuple tmp = (Tuple) data;
         for (int i = 0; i < this.length(); i++) {
-            if (!tuple.contains(this.getValue(i))){
+            if (!tmp.contains(this.getValue(i))){
                 return false;
             }
         }
@@ -620,12 +639,14 @@ public class Tuple implements TData {
     /**
      * Determines if this tuple is a superset of the given tuple.
      *
-     * @param tuple the tuple to check against
+     * @param data the tuple to check against
      * @return true if this tuple is a superset of the given tuple, false otherwise
      */
     @Override
-    public boolean isSupersetOf(TData tuple){
-        return tuple.isSubsetOf(this);
+    public boolean isSupersetOf(Object data){
+        if (data.getClass() != Tuple.class) {return false;}
+        Tuple tmp = (Tuple) data;
+        return tmp.isSubsetOf(this);
     }
 
     /**
@@ -633,20 +654,22 @@ public class Tuple implements TData {
      * A strict superset means that this set contains all the values
      * of the given tuple in the same order
      *
-     * @param tuple the tuple to compare against
+     * @param data the tuple to compare against
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
     @Override
-    public boolean isStrictSupersetOf(TData tuple){
+    public boolean isStrictSupersetOf(Object data){
         int consecutive = 0;
-        for (int i = 0; i < tuple.length(); i++) {
-            if (this.contains(tuple.getValue(i))){
+        if (data.getClass() != Tuple.class) { return false; }
+        Tuple tmp = (Tuple) data;
+        for (int i = 0; i < tmp.length(); i++) {
+            if (this.contains(tmp.getValue(i))){
                 consecutive++;
             } else {
                 consecutive = 0;
             }
         }
-        return consecutive == tuple.length();
+        return consecutive == tmp.length();
     }
 
     /**
@@ -654,14 +677,16 @@ public class Tuple implements TData {
      * A strict subset means that this set contains all the values
      * of the given tuple in the same order
      *
-     * @param tuple the tuple to compare against
+     * @param data the tuple to compare against
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
     @Override
-    public boolean isStrictSubsetOf(TData tuple){
+    public boolean isStrictSubsetOf(Object data){
+        if (data.getClass() != Tuple.class) { return false; }
+        Tuple tmp = (Tuple) data;
         int consecutive = 0;
         for (int i = 0; i < this.length(); i++) {
-            if (tuple.contains(this.getValue(i))){
+            if (tmp.contains(this.getValue(i))){
                 consecutive++;
             } else {
                 consecutive = 0;
@@ -673,13 +698,15 @@ public class Tuple implements TData {
     /**
      * Checks if the current tuple.Tuple is disjoint with the given tuple.Tuple.
      *
-     * @param tuple the tuple.Tuple to check for disjointness
+     * @param data the tuple.Tuple to check for disjointness
      * @return true if the Tuples are disjoint, false otherwise
      */
     @Override
-    public boolean isDisjoint(TData tuple){
-        for (int i = 0; i < tuple.length(); i++) {
-            if (this.contains(tuple.getValue(i))){
+    public boolean isDisjoint(Object data) throws UnsupportedOperationException{
+        if (data.getClass() != Tuple.class) { throw new UnsupportedOperationException(); }
+        Tuple tmp = (Tuple) data;
+        for (int i = 0; i < tmp.length(); i++) {
+            if (this.contains(tmp.getValue(i))){
                 return false;
             }
         }
@@ -691,12 +718,14 @@ public class Tuple implements TData {
      * The symmetric difference is the set of values that are in either tuple
      * but not in both
      *
-     * @param tuple the tuple
+     * @param data the tuple
      * @return the symmetric difference
      */
     @Override
-    public TData symmetricDifference(TData tuple){
-        TData result = new Tuple();
+    public Object symmetricDifference(Object data) throws UnsupportedOperationException {
+        if (!isTuple(data)) { throw new UnsupportedOperationException(); }
+        Tuple tuple = (Tuple) data;
+        Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
             if (!tuple.contains(this.getValue(i))){
                 result.push(this.getValue(i));
@@ -713,14 +742,16 @@ public class Tuple implements TData {
     /**
      * Subtracts the given tuple from this tuple
      *
-     * @param tuple the tuple
+     * @param data the tuple
      * @return the result
      */
     @Override
-    public TData subtract(TData tuple){
-        TData result = new Tuple();
+    public Object subtract(Object data) throws UnsupportedOperationException{
+        if (!isTuple(data)) { throw new UnsupportedOperationException(); }
+        Tuple tmp = (Tuple) data;
+        Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
-            if (!tuple.contains(this.getValue(i))){
+            if (!tmp.contains(this.getValue(i))){
                 result.push(this.getValue(i));
             }
         }
@@ -734,8 +765,8 @@ public class Tuple implements TData {
      * @return the filtered tuple.Tuple
      */
     @Override
-    public TData filter(Predicate<Object> predicate){
-        TData result = new Tuple();
+    public Object filter(Predicate<Object> predicate){
+        Tuple result = new Tuple();
         IntStream.range(
                 0,
                 this.length()
