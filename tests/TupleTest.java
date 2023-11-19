@@ -1,5 +1,6 @@
 package BData.tests;
-import BData.src.Tuple;
+
+import BData.src.*;
 import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,30 +31,29 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void testEquals() {
-        Tuple tuple = new Tuple();
-        Tuple tuple2 = new Tuple();
-        assertTrue(tuple.equals(tuple2));
+        TData tuple = new Tuple();
+        TData tuple2 = new Tuple();
         tuple.push(1);
-        assertFalse(tuple.equals(tuple2));
+        assertNotEquals(tuple, tuple2);
         tuple2.push(1);
-        assertTrue(tuple.equals(tuple2));
+        assertEquals(tuple, tuple2);
         tuple.push(2);
-        assertFalse(tuple.equals(tuple2));
+        assertNotEquals(tuple, tuple2);
         tuple2.push(2);
-        assertTrue(tuple.equals(tuple2));
+        assertEquals(tuple, tuple2);
         tuple.push(3);
-        assertFalse(tuple.equals(tuple2));
+        assertNotEquals(tuple, tuple2);
         tuple2.push(3);
-        assertTrue(tuple.equals(tuple2));
+        assertEquals(tuple, tuple2);
         tuple.push(4);
-        assertFalse(tuple.equals(tuple2));
+        assertNotEquals(tuple, tuple2);
         tuple2.push(4);
-        assertTrue(tuple.equals(tuple2));
+        assertEquals(tuple, tuple2);
     }
 
     @org.junit.jupiter.api.Test
     void contains() {
-        Tuple tuple = new Tuple(1);
+        TData tuple = new Tuple(1);
         tuple.push(1);
         assertTrue(tuple.contains(1));
         assertFalse(tuple.contains(2));
@@ -61,7 +61,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void containsType() {
-        Tuple tuple = new Tuple(1);
+        TData tuple = new Tuple(1);
         tuple.push(1);
         assertTrue(tuple.containsType(Integer.class));
         assertFalse(tuple.containsType(String.class));
@@ -78,7 +78,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void setValues() {
-        Tuple tuple = new Tuple();
+        TData tuple = new Tuple();
         tuple.setValues(1, 2, 3, 4, 5);
         assertEquals(5, tuple.length());
         assertEquals(1, (int)tuple.getValue(0));
@@ -95,7 +95,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void push() {
-        Tuple tuple = new Tuple();
+        TData tuple = new Tuple();
         tuple.push(1);
         tuple.push(2);
         tuple.push(3);
@@ -110,7 +110,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void insert() {
-        Tuple tuple = new Tuple();
+        TData tuple = new Tuple();
         tuple.insert(0, 1);
         tuple.insert(1, 2);
         tuple.insert(2, 3);
@@ -125,7 +125,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void replace() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         tuple.replace(0, 1);
         tuple.replace(1, 2);
         tuple.replace(2, 3);
@@ -139,7 +139,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void swap() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         tuple.swap(0, 1);
         tuple.swap(1, 2);
         tuple.swap(2, 3);
@@ -153,7 +153,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void getValue() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         assertEquals(0, (int)tuple.getValue(0));
         assertEquals(1, (int)tuple.getValue(1));
         assertEquals(2, (int)tuple.getValue(2));
@@ -171,17 +171,17 @@ class TupleTest {
     @org.junit.jupiter.api.Test
     void getValuesOfType() {
         BigInteger s = new BigInteger("12345678901234567890123456789012345678901234567890");
-        Tuple tuple = new Tuple(1, 2, 3, 4.0f, 5.5, 5.65, "Ciao", false, null, s);
-        assertTrue(tuple.getValuesOfType(Integer.class).equals(new Tuple(1, 2, 3)));
+        TData tuple = new Tuple(1, 2, 3, 4.0f, 5.5, 5.65, "Ciao", false, null, s);
+        assertEquals(tuple.getValuesOfType(Integer.class), new Tuple(1, 2, 3));
         assertTrue(tuple.getValuesOfType(Float.class).contains(4.0f));
         assertTrue(tuple.getValuesOfType(Double.class).contains(5.5));
-        assertTrue(tuple.getValuesOfType(String.class).equals(new Tuple("Ciao")));
+        assertEquals(tuple.getValuesOfType(String.class), new Tuple("Ciao"));
         assertTrue(tuple.getValuesOfType(BigInteger.class).contains(s));
     }
 
     @org.junit.jupiter.api.Test
     void indexOf() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         assertEquals(0, tuple.indexOf(0));
         assertEquals(1, tuple.indexOf(1));
         assertEquals(2, tuple.indexOf(2));
@@ -198,7 +198,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void pop() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         tuple.pop();
         assertEquals(tuple.length(), 11);
         tuple.pop();
@@ -215,7 +215,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void remove() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         tuple.remove(0);
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false]", tuple.toString());
         tuple.remove(tuple.length() - 1);
@@ -224,42 +224,35 @@ class TupleTest {
     }
 
     @org.junit.jupiter.api.Test
-    void trim() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
-        tuple.trim();
-        assertEquals(tuple.length(), 12);
-    }
-
-    @org.junit.jupiter.api.Test
     void clear() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.clear();
         assertEquals(tuple.length(), 0);
     }
 
     @org.junit.jupiter.api.Test
     void testToString() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         assertEquals(tuple.toString(), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false]");
     }
 
     @org.junit.jupiter.api.Test
     void sort() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.sort();
         assertEquals( "[false, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2]",tuple.toString());
     }
 
     @org.junit.jupiter.api.Test
     void reverse() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.reverse();
         assertEquals( "[false, 2, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]",tuple.toString());
     }
 
     @org.junit.jupiter.api.Test
     void slice() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.slice(1, 4);
         assertEquals( "[1, 2, 3]",tuple.toString());
         tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
@@ -269,8 +262,8 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void split() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
-        Tuple tuple2 = new Tuple();
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        TData tuple2 = new Tuple();
         tuple.split(7, tuple2);
         assertEquals( "[0, 1, 2, 3, 4, 5, 6]", tuple.toString());
         assertEquals( "[7, 8, 9, 2, false]", tuple2.toString());
@@ -278,16 +271,16 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void join() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6);
-        Tuple tuple2 = new Tuple(7, 8, 9, 2, null, false);
-        Tuple tuple3 = new Tuple(null, null, "ciao");
+        TData tuple = new Tuple(0, 1, 2, 3, 4, 5, 6);
+        TData tuple2 = new Tuple(7, 8, 9, 2, null, false);
+        TData tuple3 = new Tuple(null, null, "ciao");
         tuple.join(tuple2, tuple3);
         assertEquals( "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false, ciao]", tuple.toString());
     }
 
     @org.junit.jupiter.api.Test
     void fill() {
-        Tuple tuple = new Tuple();
+        TData tuple = new Tuple();
         tuple.fill(1, 10);
         assertEquals( "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]", tuple.toString());
         tuple.fill(1, 10);
