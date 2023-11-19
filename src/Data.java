@@ -1,5 +1,7 @@
 package BData.src;
 
+import java.util.function.Predicate;
+
 /**
  * This interface represents a collection of values
  *
@@ -106,4 +108,100 @@ public interface Data extends Iterable<Object> {
      * @param end the index to end
      */
     void slice(int start, int end);
+
+    /**
+     * Joins two or more tuples
+     * @param datas the tuples to join
+     */
+    void join(Object... datas);
+
+    /**
+     * Splits the tuple at the specified index
+     * The new tuples combined have the same length as the old one
+     * @param index the index to split
+     * @param data the new tuple
+     */
+    void split(int index, Object data);
+
+    /**
+     * Populates the tuple with the specified value for the specified amount
+     * @param value the value
+     * @param amount the amount
+     */
+    <Any>void fill(Any value, int amount);
+
+    /**
+     * Fills the values array with random integers between 0 and 100 (exclusive).
+     */
+    void fillRandom(int amount);
+
+    /**
+     * Fills the values array with random integers in specified range.
+     * @param min start of the range
+     * @param max end of the range (exclusive)
+     * @param amount the amount
+     */
+    void fillRandom(int min, int max, int amount);
+
+    /**
+     * Returns true if this tuple is a subset of the given tuple
+     * @param data the tuple
+     * @return true if this tuple is a subset of the given tuple
+     */
+    boolean isSubsetOf(Object data);
+
+    /**
+     * Returns true if this tuple is a superset of the given tuple
+     * @param data the tuple
+     * @return true if this tuple is a superset of the given tuple
+     */
+    boolean isSupersetOf(Object data);
+
+    /**
+     * Returns true if this tuple is a strict subset of the given tuple
+     * A strict subset is a subset in which all values are the same, in the same order
+     * @param data the tuple
+     * @return true if this tuple is a strict subset of the given tuple
+     */
+    boolean isStrictSubsetOf(Object data);
+
+    /**
+     * Returns true if this tuple is a strict superset of the given tuple
+     * A strict superset is a superset in which all values are the same, in the same order
+     * @param data the tuple
+     * @return true if this tuple is a strict superset of the given tuple
+     */
+    boolean isStrictSupersetOf(Object data);
+
+    /**
+     * Returns the symmetric difference between this tuple and the given tuple
+     * The symmetric difference is the set of values that are in either tuple
+     * but not in both
+     * @param data the tuple
+     * @return the symmetric difference
+     */
+    Object symmetricDifference(Object data);
+
+    /**
+     * Subtracts the given tuple from this tuple
+     * @param data the tuple
+     * @return the difference
+     */
+    Object subtract(Object data);
+
+    /**
+     * Filters the tuple using `Predicates`
+     * @param predicate the predicate
+     * @return the filtered tuple
+     */
+    Object filter(Predicate<Object> predicate);
+
+    /**
+     * Returns true if this tuple is disjoint from the given tuple
+     * Disjunction is the set of values that are in either tuple
+     * but not in both
+     * @param data the tuple
+     * @return true if this tuple is disjoint from the given tuple
+     */
+    boolean isDisjoint(Object data);
 }
