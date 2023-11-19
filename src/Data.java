@@ -108,7 +108,7 @@ public interface Data extends Iterable<Object> {
      * @param end the index to end
      */
     void slice(int start, int end);
-
+  
     /**
      * Joins two or more tuples
      * @param datas the tuples to join

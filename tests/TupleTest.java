@@ -61,7 +61,7 @@ class TupleTest {
 
     @org.junit.jupiter.api.Test
     void containsType() {
-        Tuple tuple = new Tuple(1);
+        TData tuple = new Tuple(1);
         tuple.push(1);
         assertTrue(tuple.containsType(Integer.class));
         assertFalse(tuple.containsType(String.class));

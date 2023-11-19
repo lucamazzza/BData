@@ -67,6 +67,7 @@ public class Tuple implements Data {
         this.clearNulls();
 
     }
+  
     /**
      * Determines if the given object is an instance of Tuple.
      *
@@ -142,6 +143,7 @@ public class Tuple implements Data {
      * @return if the tuple contains a value of the specified type
      * @since 1.0
      */
+    @Override
     public boolean containsType(Class<?> type) {
         for (Object value : this.values) {
             if (value == null) {
@@ -268,12 +270,13 @@ public class Tuple implements Data {
      * @return a new tuple with only the values of the specified type
      * @since 1.0
      */
-    public Tuple getValuesOfType(Class<?> type) {
-        Tuple tuple = new Tuple();
+    @Override
+    public TData getValuesOfType(Class<?> type) {
+        TData tuple = new Tuple();
         if (!containsType(type)) {
             return tuple;
         }
-        Tuple copy = new Tuple(this.values); // Create a copy of the original tuple
+        TData copy = new Tuple(this.values); // Create a copy of the original tuple
         for (int i = 0; i < copy.length(); i++) {
             if (copy.getValue(i) == null) {
                 copy.remove(i);
@@ -482,21 +485,21 @@ public class Tuple implements Data {
      */
     @Override
     public void sort() {
-        Tuple tuple = new Tuple();
-        Tuple booleans = Tuple.sortType(this, TYPES[0]);
-        Tuple bytes = Tuple.sortType(this, TYPES[1]);
-        Tuple shorts = Tuple.sortType(this, TYPES[2]);
-        Tuple integers = Tuple.sortType(this, TYPES[3]);
-        Tuple longs = Tuple.sortType(this, TYPES[4]);
-        Tuple floats = Tuple.sortType(this, TYPES[5]);
-        Tuple doubles = Tuple.sortType(this, TYPES[6]);
-        Tuple bigIntegers = Tuple.sortType(this, TYPES[7]);
-        Tuple bigDecimals = Tuple.sortType(this, TYPES[8]);
-        Tuple characters = Tuple.sortType(this, TYPES[9]);
-        Tuple strings = Tuple.sortType(this, TYPES[10]);
-        Tuple tuples = Tuple.sortType(this, TYPES[11]);
-        Tuple objects = Tuple.sortType(this, TYPES[12]);
-        Tuple nulls = Tuple.sortType(this, null);
+        TData tuple = new Tuple();
+        TData booleans = Tuple.sortType(this, TYPES[0]);
+        TData bytes = Tuple.sortType(this, TYPES[1]);
+        TData shorts = Tuple.sortType(this, TYPES[2]);
+        TData integers = Tuple.sortType(this, TYPES[3]);
+        TData longs = Tuple.sortType(this, TYPES[4]);
+        TData floats = Tuple.sortType(this, TYPES[5]);
+        TData doubles = Tuple.sortType(this, TYPES[6]);
+        TData bigIntegers = Tuple.sortType(this, TYPES[7]);
+        TData bigDecimals = Tuple.sortType(this, TYPES[8]);
+        TData characters = Tuple.sortType(this, TYPES[9]);
+        TData strings = Tuple.sortType(this, TYPES[10]);
+        TData tuples = Tuple.sortType(this, TYPES[11]);
+        TData objects = Tuple.sortType(this, TYPES[12]);
+        TData nulls = Tuple.sortType(this, null);
         tuple.join(
                 booleans,
                 bytes,
