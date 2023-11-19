@@ -7,7 +7,7 @@ package BData.src;
  * @version 1.0
  * @since 1.0
  */
-public interface IData extends Iterable<Object> {
+public interface Data extends Iterable<Object> {
 
     /**
      * Retrieves the length of the object.
@@ -27,7 +27,6 @@ public interface IData extends Iterable<Object> {
      * @return true if the value is contained in the function, otherwise false
      */
     <Any>boolean contains(Any value);
-
     /**
      * Sets the values of the collection.
      * @param  values  an array of values to be set
@@ -90,18 +89,6 @@ public interface IData extends Iterable<Object> {
      * Clears the array
      */
     void clear();
-
-    /**
-     * Converts the tuple to a string
-     * @return the string representation of the tuple
-     */
-    String toString();
-
-    /**
-     * Calculates the hash code
-     * @return the hash code
-     */
-    int hashCode();
 
     /**
      * Sorts the collection

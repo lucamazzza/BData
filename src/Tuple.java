@@ -93,12 +93,16 @@ public class Tuple implements TData {
     /**
      * Returns if the tuple is equal to another
      *
-     * @param tuple the tuple to compare
+     * @param obj the tuple to compare
      * @return if the tuple is equal to another
      * @since 1.0
      */
     @Override
-    public boolean equals(Tuple tuple){
+    public boolean equals(Object obj){
+        if (obj.getClass() != Tuple.class){
+            return false;
+        }
+        Tuple tuple = (Tuple) obj;
         if(this.values.length != tuple.values.length){
             return false;
         }
@@ -257,12 +261,12 @@ public class Tuple implements TData {
      * @since 1.0
      */
     @Override
-    public Tuple getValuesOfType(Class<?> type) {
-        Tuple tuple = new Tuple();
+    public TData getValuesOfType(Class<?> type) {
+        TData tuple = new Tuple();
         if (!containsType(type)) {
             return tuple;
         }
-        Tuple copy = new Tuple(this.values); // Create a copy of the original tuple
+        TData copy = new Tuple(this.values); // Create a copy of the original tuple
         for (int i = 0; i < copy.length(); i++) {
             if (copy.getValue(i) == null) {
                 copy.remove(i);
@@ -337,25 +341,6 @@ public class Tuple implements TData {
     }
 
     /**
-     * Removes trailing null values
-     * @since 1.0
-     */
-    @Override
-    public void trim() {
-        for (int i = this.values.length - 1; i >= 0; i--) {
-            if (this.values[i] == null) {
-                pop();
-            } else if (this.values[i] instanceof Tuple) {
-                if (((Tuple) this.values[i]).isEmpty()) {
-                    pop();
-                }
-            } else {
-                break;
-            }
-        }
-    }
-
-    /**
      * Clears the tuple, making it of length 0
      * @since 1.0
      */
@@ -411,8 +396,8 @@ public class Tuple implements TData {
      * @return a tuple with the sorted Typed values
      * @since 1.0
      */
-    private static Tuple sortType(Tuple values, Class<?> type) {
-        Tuple tuple = values.getValuesOfType(type);
+    private static TData sortType(TData values, Class<?> type) {
+        TData tuple = values.getValuesOfType(type);
         for (int i = 1; i < tuple.length(); i++) {
             if (type == TYPES[0]) { // boolean
                 if ((boolean) tuple.getValue(i) && ! (boolean) tuple.getValue(i - 1)) {
@@ -488,21 +473,21 @@ public class Tuple implements TData {
      */
     @Override
     public void sort() {
-        Tuple tuple = new Tuple();
-        Tuple booleans = Tuple.sortType(this, TYPES[0]);
-        Tuple bytes = Tuple.sortType(this, TYPES[1]);
-        Tuple shorts = Tuple.sortType(this, TYPES[2]);
-        Tuple integers = Tuple.sortType(this, TYPES[3]);
-        Tuple longs = Tuple.sortType(this, TYPES[4]);
-        Tuple floats = Tuple.sortType(this, TYPES[5]);
-        Tuple doubles = Tuple.sortType(this, TYPES[6]);
-        Tuple bigIntegers = Tuple.sortType(this, TYPES[7]);
-        Tuple bigDecimals = Tuple.sortType(this, TYPES[8]);
-        Tuple characters = Tuple.sortType(this, TYPES[9]);
-        Tuple strings = Tuple.sortType(this, TYPES[10]);
-        Tuple tuples = Tuple.sortType(this, TYPES[11]);
-        Tuple objects = Tuple.sortType(this, TYPES[12]);
-        Tuple nulls = Tuple.sortType(this, null);
+        TData tuple = new Tuple();
+        TData booleans = Tuple.sortType(this, TYPES[0]);
+        TData bytes = Tuple.sortType(this, TYPES[1]);
+        TData shorts = Tuple.sortType(this, TYPES[2]);
+        TData integers = Tuple.sortType(this, TYPES[3]);
+        TData longs = Tuple.sortType(this, TYPES[4]);
+        TData floats = Tuple.sortType(this, TYPES[5]);
+        TData doubles = Tuple.sortType(this, TYPES[6]);
+        TData bigIntegers = Tuple.sortType(this, TYPES[7]);
+        TData bigDecimals = Tuple.sortType(this, TYPES[8]);
+        TData characters = Tuple.sortType(this, TYPES[9]);
+        TData strings = Tuple.sortType(this, TYPES[10]);
+        TData tuples = Tuple.sortType(this, TYPES[11]);
+        TData objects = Tuple.sortType(this, TYPES[12]);
+        TData nulls = Tuple.sortType(this, null);
         tuple.join(
                 booleans,
                 bytes,
@@ -518,7 +503,10 @@ public class Tuple implements TData {
                 tuples,
                 objects,
                 nulls);
-        this.setValues(tuple.getValues());
+        this.clear();
+        for (Object value: tuple) {
+            this.push(value);
+        }
     }
 
     /**
@@ -558,7 +546,7 @@ public class Tuple implements TData {
      * @param data the new tuple
      * @since 1.0
      */
-    public void split(int index, Tuple data){
+    public void split(int index, TData data){
         Object[] newValues = new Object[index];
         Object[] newValues2 = new Object[this.values.length - index];
         if (this.values.length - index >= 0)
@@ -575,8 +563,8 @@ public class Tuple implements TData {
      * @since 1.0
      */
     @Override
-    public void join(Tuple... tuples){
-        for (Tuple tuple : tuples) {
+    public void join(TData... tuples){
+        for (TData tuple : tuples) {
             for (int i = 0; i < tuple.length(); i++){
                 this.push(tuple.getValue(i));
             }
@@ -620,7 +608,7 @@ public class Tuple implements TData {
      * @param tuple the tuple to check against
      * @return true if this tuple is a subset of the given tuple, false otherwise
      */
-    public boolean isSubsetOf(Tuple tuple){
+    public boolean isSubsetOf(TData tuple){
         for (int i = 0; i < this.length(); i++) {
             if (!tuple.contains(this.getValue(i))){
                 return false;
@@ -636,7 +624,7 @@ public class Tuple implements TData {
      * @return true if this tuple is a superset of the given tuple, false otherwise
      */
     @Override
-    public boolean isSupersetOf(Tuple tuple){
+    public boolean isSupersetOf(TData tuple){
         return tuple.isSubsetOf(this);
     }
 
@@ -649,7 +637,7 @@ public class Tuple implements TData {
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
     @Override
-    public boolean isStrictSupersetOf(Tuple tuple){
+    public boolean isStrictSupersetOf(TData tuple){
         int consecutive = 0;
         for (int i = 0; i < tuple.length(); i++) {
             if (this.contains(tuple.getValue(i))){
@@ -670,7 +658,7 @@ public class Tuple implements TData {
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
     @Override
-    public boolean isStrictSubsetOf(Tuple tuple){
+    public boolean isStrictSubsetOf(TData tuple){
         int consecutive = 0;
         for (int i = 0; i < this.length(); i++) {
             if (tuple.contains(this.getValue(i))){
@@ -689,7 +677,7 @@ public class Tuple implements TData {
      * @return true if the Tuples are disjoint, false otherwise
      */
     @Override
-    public boolean isDisjoint(Tuple tuple){
+    public boolean isDisjoint(TData tuple){
         for (int i = 0; i < tuple.length(); i++) {
             if (this.contains(tuple.getValue(i))){
                 return false;
@@ -707,8 +695,8 @@ public class Tuple implements TData {
      * @return the symmetric difference
      */
     @Override
-    public Tuple symmetricDifference(Tuple tuple){
-        Tuple result = new Tuple();
+    public TData symmetricDifference(TData tuple){
+        TData result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
             if (!tuple.contains(this.getValue(i))){
                 result.push(this.getValue(i));
@@ -729,8 +717,8 @@ public class Tuple implements TData {
      * @return the result
      */
     @Override
-    public Tuple subtract(Tuple tuple){
-        Tuple result = new Tuple();
+    public TData subtract(TData tuple){
+        TData result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
             if (!tuple.contains(this.getValue(i))){
                 result.push(this.getValue(i));
@@ -746,8 +734,8 @@ public class Tuple implements TData {
      * @return the filtered tuple.Tuple
      */
     @Override
-    public Tuple filter(Predicate<Object> predicate){
-        Tuple result = new Tuple();
+    public TData filter(Predicate<Object> predicate){
+        TData result = new Tuple();
         IntStream.range(
                 0,
                 this.length()
