@@ -16,7 +16,7 @@ import static java.lang.System.arraycopy;
  * @version 1.0
  * @since 1.0
  */
-public class Tuple implements Iterable<Object> {
+public class Tuple implements TData {
 
     /**
      * Constant containing the types of values that the tuple can contain
@@ -67,8 +67,6 @@ public class Tuple implements Iterable<Object> {
         this.clearNulls();
 
     }
-    // DEFINITION]:=----------------------------------------------------------------------------------------------------
-
 
     /**
      * Returns the length of the tuple
@@ -76,6 +74,7 @@ public class Tuple implements Iterable<Object> {
      * @return the length of the tuple
      * @since 1.0
      */
+    @Override
     public int length() {
         return this.values.length;
     }
@@ -86,6 +85,7 @@ public class Tuple implements Iterable<Object> {
      * @return if the tuple is empty
      * @since 1.0
      */
+    @Override
     public boolean isEmpty(){
         return this.values.length == 0;
     }
@@ -97,6 +97,7 @@ public class Tuple implements Iterable<Object> {
      * @return if the tuple is equal to another
      * @since 1.0
      */
+    @Override
     public boolean equals(Tuple tuple){
         if(this.values.length != tuple.values.length){
             return false;
@@ -116,6 +117,7 @@ public class Tuple implements Iterable<Object> {
      * @return true if the value is contained, false otherwise
      * @since 1.0
      */
+    @Override
     public <Any> boolean contains(Any value){
         return indexOf(value) != -1;
     }
@@ -127,6 +129,7 @@ public class Tuple implements Iterable<Object> {
      * @return if the tuple contains a value of the specified type
      * @since 1.0
      */
+    @Override
     public boolean containsType(Class<?> type) {
         for (Object value : this.values) {
             if (value == null) {
@@ -147,6 +150,7 @@ public class Tuple implements Iterable<Object> {
      * @param values the new values of the tuple
      * @since 1.0
      */
+    @Override
     public void setValues(Object... values){
         this.values = values;
         this.clearNulls();
@@ -158,6 +162,7 @@ public class Tuple implements Iterable<Object> {
      * @param <Any> value the value to append
      * @since 1.0
      */
+    @Override
     public <Any> void push(Any value) {
         Object[] newValues = new Object[this.values.length + 1];
         arraycopy(this.values, 0, newValues, 0, this.values.length);
@@ -173,6 +178,7 @@ public class Tuple implements Iterable<Object> {
      * @param value value to insert
      * @since 1.0
      */
+    @Override
     public <Any> void insert(int index, Any value){
         Object[] newValues = new Object[this.values.length + 1];
         if (index >= 0) arraycopy(this.values, 0, newValues, 0, index);
@@ -190,6 +196,7 @@ public class Tuple implements Iterable<Object> {
      * @param value the new value
      * @since 1.0
      */
+    @Override
     public <Any> void replace(int index, Any value){
         this.values[index] = value;
         this.clearNulls();
@@ -202,13 +209,12 @@ public class Tuple implements Iterable<Object> {
      * @param index2 the index of the second element to be swapped
      * @since 1.0
      */
+    @Override
     public void swap(int index1, int index2){
         Object temp = this.values[index1];
         this.values[index1] = this.values[index2];
         this.values[index2] = temp;
     }
-
-    // GETTING]:=-------------------------------------------------------------------------------------------------------
 
     /**
      * Returns the value at the specified index of the tuple
@@ -219,6 +225,7 @@ public class Tuple implements Iterable<Object> {
      * @return the value at the specified index
      * @since 1.0
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <Any> Any getValue(int index) throws IndexOutOfBoundsException {
         if(index < 0 || index >= this.values.length){
@@ -249,6 +256,7 @@ public class Tuple implements Iterable<Object> {
      * @return a new tuple with only the values of the specified type
      * @since 1.0
      */
+    @Override
     public Tuple getValuesOfType(Class<?> type) {
         Tuple tuple = new Tuple();
         if (!containsType(type)) {
@@ -275,6 +283,7 @@ public class Tuple implements Iterable<Object> {
      * @return the index of the value
      * @since 1.0
      */
+    @Override
     public <Any> int indexOf(Any value) {
         for (int i = 0; i < this.values.length; i++) {
             if (value instanceof String) {
@@ -299,12 +308,11 @@ public class Tuple implements Iterable<Object> {
         return -1;
     }
 
-    // REMOVING]:=------------------------------------------------------------------------------------------------------
-
     /**
      * Removes the last value of the tuple
      * @since 1.0
      */
+    @Override
     public void pop(){
         Object[] newValues = new Object[this.values.length - 1];
         arraycopy(this.values, 0, newValues, 0, this.values.length - 1);
@@ -318,6 +326,7 @@ public class Tuple implements Iterable<Object> {
      * @param  index  the index of the element to be removed
      * @since 1.0
      */
+    @Override
     public void remove(int index){
         Object[] newValues = new Object[this.values.length - 1];
         if (index >= 0) arraycopy(this.values, 0, newValues, 0, index);
@@ -331,6 +340,7 @@ public class Tuple implements Iterable<Object> {
      * Removes trailing null values
      * @since 1.0
      */
+    @Override
     public void trim() {
         for (int i = this.values.length - 1; i >= 0; i--) {
             if (this.values[i] == null) {
@@ -349,6 +359,7 @@ public class Tuple implements Iterable<Object> {
      * Clears the tuple, making it of length 0
      * @since 1.0
      */
+    @Override
     public void clear(){
         this.values = new Object[0];
     }
@@ -373,6 +384,7 @@ public class Tuple implements Iterable<Object> {
      * @return the string representation of the tuple
      * @since 1.0
      */
+    @Override
     public String toString() {
         return Arrays.toString(this.values);
     }
@@ -383,6 +395,7 @@ public class Tuple implements Iterable<Object> {
      * @return the hash code of the tuple
      * @since 1.0
      */
+    @Override
     public int hashCode() {
         return Arrays.hashCode(this.values);
     }
@@ -473,6 +486,7 @@ public class Tuple implements Iterable<Object> {
      * </p>
      * @since 1.0
      */
+    @Override
     public void sort() {
         Tuple tuple = new Tuple();
         Tuple booleans = Tuple.sortType(this, TYPES[0]);
@@ -511,6 +525,7 @@ public class Tuple implements Iterable<Object> {
      * Reverses the tuple
      * @since 1.0
      */
+    @Override
     public void reverse(){
         Object[] newValues = new Object[this.values.length];
         for (int i = 0; i < this.values.length; i++) {
@@ -528,6 +543,7 @@ public class Tuple implements Iterable<Object> {
      * @param end the last index
      * @since 1.0
      */
+    @Override
     public void slice(int start, int end){
         Object[] newValues = new Object[end - start];
         arraycopy(this.values, start, newValues, 0, newValues.length);
@@ -539,15 +555,15 @@ public class Tuple implements Iterable<Object> {
      * The new tuple has the same length as the old one
      *
      * @param index the index to split
-     * @param tuple the new tuple
+     * @param data the new tuple
      * @since 1.0
      */
-    public void split(int index, Tuple tuple){
+    public void split(int index, Tuple data){
         Object[] newValues = new Object[index];
         Object[] newValues2 = new Object[this.values.length - index];
         if (this.values.length - index >= 0)
             arraycopy(this.values, index, newValues2, 0, this.values.length - index);
-        tuple.setValues(newValues2);
+        data.setValues(newValues2);
         arraycopy(this.values, 0, newValues, 0, index);
         this.setValues(newValues);
     }
@@ -558,6 +574,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuples the tuples to join
      * @since 1.0
      */
+    @Override
     public void join(Tuple... tuples){
         for (Tuple tuple : tuples) {
             for (int i = 0; i < tuple.length(); i++){
@@ -565,8 +582,6 @@ public class Tuple implements Iterable<Object> {
             }
         }
     }
-
-    // FILLING METHODS:=------------------------------------------------------------------------------------------------
 
     /**
      * Fills the array with the specified value.
@@ -578,6 +593,12 @@ public class Tuple implements Iterable<Object> {
             this.push(value);
         }
     }
+
+    /**
+     * Fills the array with random values.
+     *
+     * @param amount the amount of random values to generate
+     */
     public void fillRandom(int amount){
         for (int i = 0; i < amount; i++) {
             this.values[i] = (int) (Math.random() * 100);
@@ -587,13 +608,12 @@ public class Tuple implements Iterable<Object> {
     /**
      * Fills the values array with random integers between 0 and 99 (inclusive).
      */
+    @Override
     public void fillRandom(int min, int max, int amount){
         for (int i = 0; i < amount; i++) {
             this.values[i] = (int) (Math.random() * (max - min + 1) + min);
         }
     }
-
-    // SET METHODS:=---------------------------------------------------------------------------------------------------
     /**
      * Determines if this tuple is a subset of the given tuple.
      *
@@ -615,6 +635,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuple the tuple to check against
      * @return true if this tuple is a superset of the given tuple, false otherwise
      */
+    @Override
     public boolean isSupersetOf(Tuple tuple){
         return tuple.isSubsetOf(this);
     }
@@ -627,6 +648,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuple the tuple to compare against
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
+    @Override
     public boolean isStrictSupersetOf(Tuple tuple){
         int consecutive = 0;
         for (int i = 0; i < tuple.length(); i++) {
@@ -647,6 +669,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuple the tuple to compare against
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
+    @Override
     public boolean isStrictSubsetOf(Tuple tuple){
         int consecutive = 0;
         for (int i = 0; i < this.length(); i++) {
@@ -658,12 +681,14 @@ public class Tuple implements Iterable<Object> {
         }
         return consecutive == this.length();
     }
+
     /**
      * Checks if the current tuple.Tuple is disjoint with the given tuple.Tuple.
      *
      * @param tuple the tuple.Tuple to check for disjointness
      * @return true if the Tuples are disjoint, false otherwise
      */
+    @Override
     public boolean isDisjoint(Tuple tuple){
         for (int i = 0; i < tuple.length(); i++) {
             if (this.contains(tuple.getValue(i))){
@@ -681,6 +706,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuple the tuple
      * @return the symmetric difference
      */
+    @Override
     public Tuple symmetricDifference(Tuple tuple){
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
@@ -702,6 +728,7 @@ public class Tuple implements Iterable<Object> {
      * @param tuple the tuple
      * @return the result
      */
+    @Override
     public Tuple subtract(Tuple tuple){
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
@@ -718,6 +745,7 @@ public class Tuple implements Iterable<Object> {
      * @param predicate the predicate used to filter the elements of the tuple.Tuple
      * @return the filtered tuple.Tuple
      */
+    @Override
     public Tuple filter(Predicate<Object> predicate){
         Tuple result = new Tuple();
         IntStream.range(
