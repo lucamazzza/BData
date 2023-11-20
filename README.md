@@ -9,13 +9,6 @@ It is written in Java, based on Java's standard Arrays, for high compatibility.
 
 > ⚠️ BData is still in development and is not available yet! Be patient or join my [Discord Community](https://discord.gg/B3yXwmHb2V) to interact with me and contribute.
 
-* [Features](#Features)
-* [Requirements](#Requirements)
-* [Installation](#Installation)
-* [Usage](#Usage)
-* [Credits](#Credits)
-* [License](#License)
-
 ## Features
 
 
