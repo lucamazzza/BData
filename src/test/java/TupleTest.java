@@ -1,12 +1,13 @@
-import ch.mazluc.Data;
-import ch.mazluc.Tuple;
+
+import ch.mazluc.*;
+import org.junit.jupiter.api.Test;
+
 import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 class TupleTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void length() {
         Tuple tuple = new Tuple();
         assertEquals(0, tuple.length());
