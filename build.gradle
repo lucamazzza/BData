@@ -9,7 +9,7 @@ repositories {
 }
 
 group = 'ch.mazluc'
-version = '1.0'
+version = '1.0.0'
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
