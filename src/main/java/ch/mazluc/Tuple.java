@@ -45,8 +45,6 @@ public class Tuple implements Data {
      */
     private Object[] values;
 
-    // INITIALIZATION]:=------------------------------------------------------------------------------------------------
-
     /**
      * Creates a new instance of tuple.Tuple
      *
@@ -64,10 +62,13 @@ public class Tuple implements Data {
      * @since 1.0
      */
     public Tuple(Object... values) {
+        if (values.length == 0) {
+            this.values = new Object[0];
+            return;
+        }
         this.values = new Object[values.length];
         arraycopy(values, 0, this.values, 0, values.length);
         this.clearNulls();
-
     }
 
     /**
@@ -76,7 +77,7 @@ public class Tuple implements Data {
      * @param obj the object to be checked
      * @return  true if the object is an instance of Tuple, false otherwise
      */
-    public static boolean isTuple(Object obj) {
+    private static boolean isTuple(Object obj) {
         return obj.getClass() == Tuple.class;
     }
 
@@ -90,7 +91,7 @@ public class Tuple implements Data {
      * @since 1.0
      */
     private static Tuple sortType(Object values, Class<?> type) {
-        if (values.getClass() != Tuple.class) {
+        if (!isTuple(values)) {
             return new Tuple();
         }
         Tuple vals = (Tuple) values;
@@ -177,8 +178,10 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public boolean equals(Object obj) throws IllegalArgumentException{
-        if (!isTuple(obj)){ throw new IllegalArgumentException("Object is not a tuple"); }
+    public boolean equals(Object obj) {
+        if (!isTuple(obj)) {
+            return false;
+        }
         Tuple tuple = (Tuple) obj;
         if(this.values.length != tuple.values.length){
             return false;
@@ -200,7 +203,7 @@ public class Tuple implements Data {
      */
     @Override
     public <Any> boolean contains(Any value) {
-        return indexOf(value) != -1;
+        return this.indexOf(value) != -1;
     }
 
     /**
@@ -230,6 +233,10 @@ public class Tuple implements Data {
      */
     @Override
     public void setValues(Object... values){
+        if (values.length == 0) {
+            this.values = new Object[0];
+            return;
+        }
         this.values = values;
         this.clearNulls();
     }
@@ -242,6 +249,9 @@ public class Tuple implements Data {
      */
     @Override
     public <Any> void push(Any value) {
+        if (value == null) {
+            return;
+        }
         Object[] newValues = new Object[this.values.length + 1];
         arraycopy(this.values, 0, newValues, 0, this.values.length);
         newValues[this.values.length] = value;
@@ -257,12 +267,14 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public <Any> void insert(int index, Any value){
+    public <Any> void insert(int index, Any value) throws IndexOutOfBoundsException {
+        if (value == null) {
+            return;
+        }
         Object[] newValues = new Object[this.values.length + 1];
-        if (index >= 0) arraycopy(this.values, 0, newValues, 0, index);
+        arraycopy(this.values, 0, newValues, 0, index);
         newValues[index] = value;
-        if (this.values.length - index >= 0)
-            arraycopy(this.values, index, newValues, index + 1, this.values.length - index);
+        arraycopy(this.values, index, newValues, index + 1, this.values.length - index);
         this.values = newValues;
         this.clearNulls();
     }
@@ -275,7 +287,13 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public <Any> void replace(int index, Any value){
+    public <Any> void replace(int index, Any value) throws IndexOutOfBoundsException {
+        if (value == null) {
+            return;
+        }
+        if (index < 0 || index >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length " + this.values.length);
+        }
         this.values[index] = value;
         this.clearNulls();
     }
@@ -288,7 +306,10 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public void swap(int index1, int index2){
+    public void swap(int index1, int index2) throws IndexOutOfBoundsException {
+        if (index1 < 0 || index2 < 0 || index1 >= this.values.length || index2 >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+        }
         Object temp = this.values[index1];
         this.values[index1] = this.values[index2];
         this.values[index2] = temp;
@@ -306,9 +327,8 @@ public class Tuple implements Data {
     @Override
     @SuppressWarnings("unchecked")
     public <Any> Any getValue(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= this.values.length) { throw new IndexOutOfBoundsException(); }
-        if (this.values[index] == null) {
-            return null;
+        if (index < 0 || index >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length " + this.values.length);
         }
         return (Any) this.values[index];
     }
@@ -388,6 +408,9 @@ public class Tuple implements Data {
      */
     @Override
     public void pop() {
+        if (this.values.length == 0) {
+            return;
+        }
         Object[] newValues = new Object[this.values.length - 1];
         arraycopy(this.values, 0, newValues, 0, this.values.length - 1);
         this.values = newValues;
@@ -401,9 +424,15 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public void remove(int index) {
+    public void remove(int index) throws IndexOutOfBoundsException {
+        if (this.values.length == 0) {
+            return;
+        }
+        if (index < 0 || index >= this.values.length) {
+            throw new IndexOutOfBoundsException();
+        }
         Object[] newValues = new Object[this.values.length - 1];
-        if (index >= 0) arraycopy(this.values, 0, newValues, 0, index);
+        arraycopy(this.values, 0, newValues, 0, index);
         if (this.values.length - 1 - index >= 0)
             arraycopy(this.values, index + 1, newValues, index, this.values.length - 1 - index);
         this.values = newValues;
@@ -420,12 +449,13 @@ public class Tuple implements Data {
         this.values = new Object[0];
     }
 
-    // CONVERTING]:=----------------------------------------------------------------------------------------------------
-
     /**
      * Clears any null values from the array.
      */
     private void clearNulls() {
+        if (this.values.length == 0) {
+            return;
+        }
         for (int i = 0; i < this.values.length; i++) {
             if (this.values[i] == null) {
                 this.remove(i);
@@ -442,6 +472,9 @@ public class Tuple implements Data {
      */
     @Override
     public String toString() {
+        if (this.values.length == 0) {
+            return "[]";
+        }
         return Arrays.toString(this.values);
     }
 
@@ -453,6 +486,9 @@ public class Tuple implements Data {
      */
     @Override
     public int hashCode() {
+        if (this.values.length == 0) {
+            return 0;
+        }
         return Arrays.hashCode(this.values);
     }
 
@@ -480,6 +516,9 @@ public class Tuple implements Data {
      */
     @Override
     public void sort() {
+        if (this.values.length == 0) {
+            return;
+        }
         Tuple tuple = new Tuple();
         Tuple booleans = Tuple.sortType(this, TYPES[0]);
         Tuple bytes = Tuple.sortType(this, TYPES[1]);
@@ -523,14 +562,15 @@ public class Tuple implements Data {
      */
     @Override
     public void reverse() {
+        if (this.values.length == 0 || this.values.length == 1) {
+            return;
+        }
         Object[] newValues = new Object[this.values.length];
         for (int i = 0; i < this.values.length; i++) {
             newValues[i] = this.values[this.values.length - i - 1];
         }
         this.setValues(newValues);
     }
-
-    // ADVANCED]:=------------------------------------------------------------------------------------------------------
 
     /**
      * Slices the tuple from a defined start to a defined end
@@ -541,6 +581,12 @@ public class Tuple implements Data {
      */
     @Override
     public void slice(int start, int end) {
+        if (end > this.values.length) {
+            end = this.values.length;
+        }
+        if (start < 0) {
+            start = 0;
+        }
         Object[] newValues = new Object[end - start];
         arraycopy(this.values, start, newValues, 0, newValues.length);
         this.setValues(newValues);
@@ -556,12 +602,16 @@ public class Tuple implements Data {
      */
     public void split(int index, Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
-
+        if (index > this.values.length) {
+            index = this.values.length;
+        }
+        if (index < 0) {
+            index = 0;
+        }
         Tuple tmp = (Tuple) data;
         Object[] newValues = new Object[index];
         Object[] newValues2 = new Object[this.values.length - index];
-        if (this.values.length - index >= 0)
-            arraycopy(this.values, index, newValues2, 0, this.values.length - index);
+        arraycopy(this.values, index, newValues2, 0, this.values.length - index);
         tmp.setValues(newValues2);
         arraycopy(this.values, 0, newValues, 0, index);
         this.setValues(newValues);
@@ -576,7 +626,7 @@ public class Tuple implements Data {
     @Override
     public void join(Object... datas) {
         for (Object data : datas) {
-            if (data.getClass() != Tuple.class) {
+            if (!isTuple(data)) {
                 continue;
             }
             Tuple tmp = (Tuple) data;
@@ -591,8 +641,9 @@ public class Tuple implements Data {
      *
      * @param value the value to fill the array with
      */
-
     public <Any> void fill(Any value, int amount) {
+        if (amount < 0) { amount = 0; }
+        if (amount == 0 || value == null) { return; }
         for (int i = 0; i < amount; i++) {
             this.push(value);
         }
@@ -604,6 +655,12 @@ public class Tuple implements Data {
      * @param amount the amount of random values to generate
      */
     public void fillRandom(int amount) {
+        if (amount < 0 || amount > this.values.length) {
+            amount = 0;
+        }
+        if (amount == 0) {
+            return;
+        }
         for (int i = 0; i < amount; i++) {
             this.values[i] = (int) (Math.random() * 100);
         }
@@ -613,8 +670,18 @@ public class Tuple implements Data {
      * Fills the values array with random integers between 0 and 99 (inclusive).
      */
     @Override
-
     public void fillRandom(int min, int max, int amount) {
+        if (amount < 0 || amount > this.values.length) {
+            amount = 0;
+        }
+        if (amount == 0) {
+            return;
+        }
+        if (min > max) {
+            int tmp = min;
+            min = max;
+            max = tmp;
+        }
         for (int i = 0; i < amount; i++) {
             this.values[i] = (int) (Math.random() * (max - min + 1) + min);
         }
@@ -629,6 +696,9 @@ public class Tuple implements Data {
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException{
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (this.length() > ((Tuple) data).length()) {
+            return false;
+        }
         Tuple tmp = (Tuple) data;
         for (int i = 0; i < this.length(); i++) {
             if (!tmp.contains(this.getValue(i))) {
@@ -647,6 +717,9 @@ public class Tuple implements Data {
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (this.length() < ((Tuple) data).length()) {
+            return false;
+        }
         Tuple tmp = (Tuple) data;
         return tmp.isSubsetOf(this);
     }
@@ -660,8 +733,11 @@ public class Tuple implements Data {
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
     @Override
-    public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException{
+    public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (this.length() < ((Tuple) data).length()) {
+            return false;
+        }
         int consecutive = 0;
         Tuple tmp = (Tuple) data;
         for (int i = 0; i < tmp.length(); i++) {
@@ -685,6 +761,9 @@ public class Tuple implements Data {
     @Override
     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (this.length() > ((Tuple) data).length()) {
+            return false;
+        }
         Tuple tmp = (Tuple) data;
         int consecutive = 0;
         for (int i = 0; i < this.length(); i++) {
@@ -706,6 +785,9 @@ public class Tuple implements Data {
     @Override
     public boolean isDisjoint(Object data) throws IllegalArgumentException{
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (data.equals(this)) {
+            return false;
+        }
         Tuple tmp = (Tuple) data;
         for (int i = 0; i < tmp.length(); i++) {
             if (this.contains(tmp.getValue(i))){
@@ -781,8 +863,6 @@ public class Tuple implements Data {
 
         return result;
     }
-
-    // ITERATOR:=------------------------------------------------------------------------------------------------------
 
     /**
      * Returns an iterator over elements of type {@code T}.

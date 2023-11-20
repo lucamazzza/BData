@@ -56,7 +56,7 @@ public interface Data extends Iterable<Object> {
      * @param index index to insert the value into
      * @param value value to insert
      */
-    <Any> void insert(int index, Any value);
+    <Any> void insert(int index, Any value) throws IndexOutOfBoundsException;
 
     /**
      * Replaces the element at the specified index with the given value.
@@ -65,7 +65,7 @@ public interface Data extends Iterable<Object> {
      * @param value the value to replace the element with
      * @param <Any> the type
      */
-    <Any> void replace(int index, Any value);
+    <Any> void replace(int index, Any value) throws IndexOutOfBoundsException;
 
     /**
      * Swaps the elements at the specified indices in the array.
@@ -73,7 +73,7 @@ public interface Data extends Iterable<Object> {
      * @param index1 the index of the first element to be swapped
      * @param index2 the index of the second element to be swapped
      */
-    void swap(int index1, int index2);
+    void swap(int index1, int index2) throws IndexOutOfBoundsException;
 
     /**
      * Retrieves the value at the specified index.
@@ -82,7 +82,7 @@ public interface Data extends Iterable<Object> {
      * @return the value at the specified index
      * @param <Any> the type
      */
-    <Any> Any getValue(int index);
+    <Any> Any getValue(int index) throws IndexOutOfBoundsException;
 
     /**
      * Returns the index of a specified value
@@ -103,7 +103,7 @@ public interface Data extends Iterable<Object> {
      *
      * @param index the index of the element to be removed
      */
-    void remove(int index);
+    void remove(int index) throws IndexOutOfBoundsException;
 
     /**
      * Clears the array
