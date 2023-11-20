@@ -33,8 +33,8 @@ publishing {
             name = "BData"
             url = uri("https://maven.pkg.github.com/lucamazzza/BData")
             credentials {
-                username = System.getenv("GUSERNAME")
-                password = System.getenv("TOKEN")
+                username = System.getenv("GUSERNAME") ?? ${{ GUSERNAME }}
+                password = System.getenv("TOKEN") ?? ${{ secrets.TOKEN }}
             }
         }
     }
