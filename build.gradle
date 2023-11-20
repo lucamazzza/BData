@@ -19,20 +19,20 @@ test {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "OSSRH"
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
+    publications {
+        maven(MavenPublication) {
+            groupId = 'ch.mazluc'
+            artifactId = 'bdata'
+            version = '1.0.0'
+            from components.java
         }
+    }
+    repositories {
         maven {
             name = "BData"
             url = uri("https://maven.pkg.github.com/lucamazzza/BData")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                username = project.findProperty("gpr.user") ?: System.getenv("GUSERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
             }
         }
