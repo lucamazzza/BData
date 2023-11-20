@@ -30,6 +30,7 @@ public interface Data extends Iterable<Object> {
      *
      * @param value the value to be checked if it is contained in the function
      * @return true if the value is contained in the function, otherwise false
+     * @param <Any> the type
      */
     <Any>boolean contains(Any value);
 
@@ -37,6 +38,7 @@ public interface Data extends Iterable<Object> {
      * Sets the values of the collection.
      *
      * @param values an array of values to be set
+     * @param <Any> the type
      */
     <Any> void setValues(Any... values);
 
@@ -44,6 +46,7 @@ public interface Data extends Iterable<Object> {
      * Pushes a value onto the collection.
      *
      * @param value the value to be pushed onto the stack
+     * @param <Any> the type
      */
     <Any> void push(Any value);
 
@@ -60,6 +63,7 @@ public interface Data extends Iterable<Object> {
      *
      * @param index the index of the element to be replaced
      * @param value the value to replace the element with
+     * @param <Any> the type
      */
     <Any> void replace(int index, Any value);
 
@@ -76,6 +80,7 @@ public interface Data extends Iterable<Object> {
      *
      * @param index the index of the value
      * @return the value at the specified index
+     * @param <Any> the type
      */
     <Any> Any getValue(int index);
 
@@ -84,6 +89,7 @@ public interface Data extends Iterable<Object> {
      *
      * @param value the value to search
      * @return the index of the value
+     * @param <Any> the type
      */
     <Any> int indexOf(Any value);
 
@@ -142,11 +148,13 @@ public interface Data extends Iterable<Object> {
      * Populates the tuple with the specified value for the specified amount
      * @param value the value
      * @param amount the amount
+     * @param <Any> the type
      */
     <Any>void fill(Any value, int amount);
 
     /**
      * Fills the values array with random integers between 0 and 100 (exclusive).
+     * @param amount the amount
      */
     void fillRandom(int amount);
 

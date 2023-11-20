@@ -328,7 +328,7 @@ public class Tuple implements Data {
     /**
      * Returns a new tuple with only the values of the specified type
      *
-     * @param type the type of the values (to pass as `<Class>.class`, for example `Integer.class`)
+     * @param type the type of the values (to pass as `Class.class`, for example `Integer.class`)
      * @return a new tuple with only the values of the specified type
      * @since 1.0
      */
@@ -551,7 +551,6 @@ public class Tuple implements Data {
      * The new tuple has the same length as the old one
      *
      * @param index the index to split
-<<<<<<< HEAD
      * @param data the new tuple
      * @since 1.0
      */
