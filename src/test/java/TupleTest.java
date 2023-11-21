@@ -1,4 +1,5 @@
 import ch.mazluc.Data;
+import ch.mazluc.Table;
 import ch.mazluc.Tuple;
 import org.junit.jupiter.api.Test;
 
@@ -78,7 +79,7 @@ class TupleTest {
 
     @Test
     void setValues() {
-        Data tuple = new Tuple();
+        Tuple tuple = new Tuple();
         tuple.setValues(1, 2, 3, 4, 5);
         assertEquals(5, tuple.length());
         assertEquals(1, (int)tuple.getValue(0));
@@ -95,7 +96,7 @@ class TupleTest {
 
     @Test
     void push() {
-        Data tuple = new Tuple();
+        Tuple tuple = new Tuple();
         tuple.push(1);
         tuple.push(2);
         tuple.push(3);
@@ -110,7 +111,7 @@ class TupleTest {
 
     @Test
     void insert() {
-        Data tuple = new Tuple();
+        Tuple tuple = new Tuple();
         tuple = new Tuple(0);
         tuple.insert(0, 2);
         tuple.insert(2, 3);
@@ -126,7 +127,7 @@ class TupleTest {
 
     @Test
     void replace() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         tuple.replace(0, 1);
         tuple.replace(1, 2);
         tuple.replace(2, 3);
@@ -140,7 +141,7 @@ class TupleTest {
 
     @Test
     void swap() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         tuple.swap(0, 1);
         tuple.swap(1, 2);
         tuple.swap(2, 3);
@@ -154,7 +155,7 @@ class TupleTest {
 
     @Test
     void getValue() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", false);
         assertEquals(0, (int)tuple.getValue(0));
         assertEquals(1, (int)tuple.getValue(1));
         assertEquals(2, (int)tuple.getValue(2));
@@ -218,7 +219,7 @@ class TupleTest {
 
     @Test
     void remove() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         tuple.remove(0);
         assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false]", tuple.toString());
         tuple.remove(tuple.length() - 1);
@@ -248,7 +249,7 @@ class TupleTest {
 
     @Test
     void sort() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.sort();
         assertEquals( "[false, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2]",tuple.toString());
         tuple = new Tuple("0");
@@ -258,7 +259,7 @@ class TupleTest {
 
     @Test
     void reverse() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.reverse();
         assertEquals( "[false, 2, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]",tuple.toString());
         tuple.clear();
@@ -281,8 +282,8 @@ class TupleTest {
 
     @Test
     void split() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
-        Data tuple2 = new Tuple();
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
+        Tuple tuple2 = new Tuple();
         tuple.split(7, tuple2);
         assertEquals( "[0, 1, 2, 3, 4, 5, 6]", tuple.toString());
         assertEquals( "[7, 8, 9, 2, false]", tuple2.toString());
@@ -307,7 +308,7 @@ class TupleTest {
 
     @Test
     void fill() {
-        Data tuple = new Tuple();
+        Tuple tuple = new Tuple();
         tuple.fill(1, 10);
         assertEquals( "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]", tuple.toString());
         tuple.fill(1, 10);

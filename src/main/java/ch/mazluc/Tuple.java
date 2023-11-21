@@ -231,7 +231,6 @@ public class Tuple implements Data {
      * @param values the new values of the tuple
      * @since 1.0
      */
-    @Override
     public void setValues(Object... values){
         if (values.length == 0) {
             this.values = new Object[0];
@@ -266,7 +265,6 @@ public class Tuple implements Data {
      * @param value value to insert
      * @since 1.0
      */
-    @Override
     public <Any> void insert(int index, Any value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
@@ -286,7 +284,6 @@ public class Tuple implements Data {
      * @param value the new value
      * @since 1.0
      */
-    @Override
     public <Any> void replace(int index, Any value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
@@ -324,7 +321,6 @@ public class Tuple implements Data {
      * @return the value at the specified index
      * @since 1.0
      */
-    @Override
     @SuppressWarnings("unchecked")
     public <Any> Any getValue(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= this.values.length) {
@@ -423,7 +419,6 @@ public class Tuple implements Data {
      * @param index the index of the element to be removed
      * @since 1.0
      */
-    @Override
     public void remove(int index) throws IndexOutOfBoundsException {
         if (this.values.length == 0) {
             return;
@@ -514,7 +509,6 @@ public class Tuple implements Data {
      *
      * @since 1.0
      */
-    @Override
     public void sort() {
         if (this.values.length == 0) {
             return;
@@ -560,7 +554,6 @@ public class Tuple implements Data {
      *
      * @since 1.0
      */
-    @Override
     public void reverse() {
         if (this.values.length == 0 || this.values.length == 1) {
             return;
@@ -669,7 +662,6 @@ public class Tuple implements Data {
     /**
      * Fills the values array with random integers between 0 and 99 (inclusive).
      */
-    @Override
     public void fillRandom(int min, int max, int amount) {
         if (amount < 0 || amount > this.values.length) {
             amount = 0;
