@@ -14,7 +14,7 @@ Currently the features of BData are the following:
 * **`Tuple`**: a structured, heterogeneous data type, representing a Tuple (as seen in Python, Swift and many others), being an "array with multiple types inside".
 ``` java
 Tuple tuple1 = new Tuple(); // An empty tuple
-Tuple tuple2 = new Tuple("Hi", "i", 0, false);
+Tuple tuple2 = new Tuple("Hi", "i", 0, false, 0.0f, 554.23);
 ```
 
 * **`Table`**: representing an aggregation of Tuples.
