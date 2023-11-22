@@ -10,7 +10,27 @@ It is written in Java, based on Java's standard Arrays, for high compatibility.
 > ⚠️ BData is still in development and is not available yet! Be patient or join my [Discord Community](https://discord.gg/B3yXwmHb2V) to interact with me and contribute.
 
 ## Features
+Currently the features of BData are the following:
+* **`Tuple`**: a structured, heterogeneous data type, representing a Tuple (as seen in Python, Swift and many others), being an "array with multiple types inside".
+``` java
+Tuple tuple1 = new Tuple(); // An empty tuple
+Tuple tuple2 = new Tuple("Hi", "i", 0, false);
+```
 
+* **`Table`**: representing an aggregation of Tuples.
+``` java
+Table table1 = new Table(); // An empty table
+Table table2 = new Table(tuple1, tuple2);
+```
+
+* **`Data`**: an interface representing Tuples and Tables.
+``` java
+List<Data> datas = new ArrayList<Data>();
+datas.add(table1); // Works
+datas.add(tuple2); // Works
+```
+
+> Many more features are to come, be patient. If you have an enquiry, an idea, or you just want to help me out please submit via issue. 
 
 ## Requirements
 
