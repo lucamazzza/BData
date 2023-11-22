@@ -1,9 +1,7 @@
 package ch.mazluc;
 
 import java.util.Iterator;
-import java.util.function.IntPredicate;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 
 import static java.lang.System.arraycopy;
 
@@ -82,15 +80,6 @@ public class Table implements Data{
             }
         }
         return false;
-    }
-
-    /**
-     * Sets the values of the collection.
-     *
-     * @param values an array of values to be set
-     */
-    public <Any> void setValues(Any... values) {
-
     }
 
     /**
@@ -213,9 +202,9 @@ public class Table implements Data{
         if (start < 0) {
             start = 0;
         }
-        Object[] newValues = new Object[end - start];
+        Tuple[] newValues = new Tuple[end - start];
         arraycopy(this.values, start, newValues, 0, newValues.length);
-        this.setValues(newValues);
+        this.values = newValues;
     }
 
     /**
@@ -268,30 +257,6 @@ public class Table implements Data{
         if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
         Table table = (Table) data;
         return table.isSubsetOf(this);
-    }
-
-    /**
-     * Returns the symmetric difference between this tuple and the given tuple
-     * The symmetric difference is the set of values that are in either tuple
-     * but not in both
-     *
-     * @param data the tuple
-     * @return the symmetric difference
-     */
-    @Override
-    public Object symmetricDifference(Object data) throws IllegalArgumentException{
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
-        Table tmp = new Table();
-        Table table = (Table) data;
-        for (Tuple value : table.values) {
-            for (int i = 0; i < value.length(); i++) {
-                if (!this.contains(value.getValue(i))) {
-                    tmp.push(value);
-                }
-            }
-
-        }
-        return tmp;
     }
 
     /**

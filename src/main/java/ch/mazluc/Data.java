@@ -101,16 +101,6 @@ public interface Data extends Iterable<Object> {
     boolean isSupersetOf(Object data);
 
     /**
-     * Returns the symmetric difference between this tuple and the given tuple
-     * The symmetric difference is the set of values that are in either tuple
-     * but not in both
-     *
-     * @param data the tuple
-     * @return the symmetric difference
-     */
-    Object symmetricDifference(Object data);
-
-    /**
      * Subtracts the given tuple from this tuple
      *
      * @param data the tuple

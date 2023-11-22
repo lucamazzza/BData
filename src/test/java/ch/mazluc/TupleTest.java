@@ -1,7 +1,4 @@
 package ch.mazluc;
-
-import ch.mazluc.Data;
-import ch.mazluc.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -112,8 +109,7 @@ class TupleTest {
 
     @Test
     void insert() {
-        Tuple tuple = new Tuple();
-        tuple = new Tuple(0);
+        Tuple tuple = new Tuple(0);
         tuple.insert(0, 2);
         tuple.insert(2, 3);
         assertEquals(3, tuple.length());

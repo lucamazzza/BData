@@ -795,7 +795,6 @@ public class Tuple implements Data {
      * @param data the tuple
      * @return the symmetric difference
      */
-    @Override
     public Object symmetricDifference(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         Tuple tuple = (Tuple) data;
