@@ -1,27 +1,51 @@
 package ch.mazluc;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 import static java.lang.System.arraycopy;
 
+/**
+ * Represents a table
+ *
+ * @author Luca Mazza
+ * @version 1.0
+ * @since 1.0
+ */
 public class Table implements Data{
 
+    /**
+     * The values of the table
+     */
     private Tuple[] values;
 
-
+    /**
+     * Creates a new, empty table
+     */
     public Table(){
         this.values = new Tuple[0];
     }
 
+    /**
+     * Creates a new table with the specified size
+     * @param size the size of the table
+     */
     public Table(int size){
         this.values = new Tuple[size];
     }
 
+    /**
+     * Creates a new table with the specified values
+     * @param values the values
+     */
     public Table(Tuple... values){
         this.values = values;
+    }
+
+    private static boolean isTable(Object data) {
+        return data.getClass() == Table.class;
     }
 
     /**
@@ -202,7 +226,7 @@ public class Table implements Data{
     @Override
     public void join(Object... datas) {
         for (Object data : datas) {
-            if (data.getClass() != Table.class) { throw new IllegalArgumentException("Object is not a table"); }
+            if (data.getClass() != Table.class) { continue; }
             this.push(data);
         }
     }
@@ -214,8 +238,8 @@ public class Table implements Data{
      * @return true if this tuple is a subset of the given tuple
      */
     @Override
-    public boolean isSubsetOf(Object data) {
-        if (data.getClass() != Table.class) { throw new IllegalArgumentException("Object is not a table"); }
+    public boolean isSubsetOf(Object data) throws IllegalArgumentException {
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
         Table table = (Table) data;
         if (this.values.length < table.values.length) {
             return false;
@@ -240,34 +264,10 @@ public class Table implements Data{
      * @return true if this tuple is a superset of the given tuple
      */
     @Override
-    public boolean isSupersetOf(Object data) {
-        if (data.getClass() != Table.class) { throw new IllegalArgumentException("Object is not a table"); }
+    public boolean isSupersetOf(Object data) throws IllegalArgumentException {
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
         Table table = (Table) data;
         return table.isSubsetOf(this);
-    }
-
-    /**
-     * Returns true if this tuple is a strict subset of the given tuple
-     * A strict subset is a subset in which all values are the same, in the same order
-     *
-     * @param data the tuple
-     * @return true if this tuple is a strict subset of the given tuple
-     */
-    @Override
-    public boolean isStrictSubsetOf(Object data) {
-        return false;
-    }
-
-    /**
-     * Returns true if this tuple is a strict superset of the given tuple
-     * A strict superset is a superset in which all values are the same, in the same order
-     *
-     * @param data the tuple
-     * @return true if this tuple is a strict superset of the given tuple
-     */
-    @Override
-    public boolean isStrictSupersetOf(Object data) {
-        return false;
     }
 
     /**
@@ -279,8 +279,19 @@ public class Table implements Data{
      * @return the symmetric difference
      */
     @Override
-    public Object symmetricDifference(Object data) {
-        return null;
+    public Object symmetricDifference(Object data) throws IllegalArgumentException{
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        Table tmp = new Table();
+        Table table = (Table) data;
+        for (Tuple value : table.values) {
+            for (int i = 0; i < value.length(); i++) {
+                if (!this.contains(value.getValue(i))) {
+                    tmp.push(value);
+                }
+            }
+
+        }
+        return tmp;
     }
 
     /**
@@ -291,7 +302,17 @@ public class Table implements Data{
      */
     @Override
     public Object subtract(Object data) {
-        return null;
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        Table tmp = new Table();
+        Table table = (Table) data;
+        for (Tuple value : table.values) {
+            for (int i = 0; i < value.length(); i++) {
+                if (!this.contains(value.getValue(i))) {
+                    tmp.push(value);
+                }
+            }
+        }
+        return tmp;
     }
 
     /**
@@ -302,7 +323,13 @@ public class Table implements Data{
      */
     @Override
     public Object filter(Predicate<Object> predicate) {
-        return null;
+        Table result = new Table();
+        for (Tuple value : this.values) {
+            if (predicate.test(value)) {
+                result.push(value.filter(predicate));
+            }
+        }
+        return result;
     }
 
     /**
@@ -323,9 +350,20 @@ public class Table implements Data{
      *
      * @return an Iterator.
      */
-    @NotNull
     @Override
     public Iterator<Object> iterator() {
-        return null;
+        return new Iterator<>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < length() && values[currentIndex] != null;
+            }
+
+            @Override
+            public Object next() {
+                return values[currentIndex++];
+            }
+        };
     }
 }

@@ -101,24 +101,6 @@ public interface Data extends Iterable<Object> {
     boolean isSupersetOf(Object data);
 
     /**
-     * Returns true if this tuple is a strict subset of the given tuple
-     * A strict subset is a subset in which all values are the same, in the same order
-     *
-     * @param data the tuple
-     * @return true if this tuple is a strict subset of the given tuple
-     */
-    boolean isStrictSubsetOf(Object data);
-
-    /**
-     * Returns true if this tuple is a strict superset of the given tuple
-     * A strict superset is a superset in which all values are the same, in the same order
-     *
-     * @param data the tuple
-     * @return true if this tuple is a strict superset of the given tuple
-     */
-    boolean isStrictSupersetOf(Object data);
-
-    /**
      * Returns the symmetric difference between this tuple and the given tuple
      * The symmetric difference is the set of values that are in either tuple
      * but not in both

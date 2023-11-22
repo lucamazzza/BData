@@ -1,5 +1,6 @@
+package ch.mazluc;
+
 import ch.mazluc.Data;
-import ch.mazluc.Table;
 import ch.mazluc.Tuple;
 import org.junit.jupiter.api.Test;
 
@@ -115,7 +116,6 @@ class TupleTest {
         tuple = new Tuple(0);
         tuple.insert(0, 2);
         tuple.insert(2, 3);
-        System.out.println(tuple);
         assertEquals(3, tuple.length());
         assertEquals(2, (int)tuple.getValue(0));
         assertEquals(0, (int)tuple.getValue(1));

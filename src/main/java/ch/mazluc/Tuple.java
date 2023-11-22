@@ -724,7 +724,6 @@ public class Tuple implements Data {
      * @param data the tuple to compare against
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
-    @Override
     public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         if (this.length() < ((Tuple) data).length()) {
@@ -750,7 +749,6 @@ public class Tuple implements Data {
      * @param data the tuple to compare against
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
-    @Override
     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         if (this.length() > ((Tuple) data).length()) {
