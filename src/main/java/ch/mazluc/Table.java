@@ -83,8 +83,6 @@ public class Table implements Data{
     }
 
     /**
-<<<<<<< Updated upstream
-=======
      * Sets the values of the collection.
      *
      * @param values an array of values to be set
@@ -98,7 +96,6 @@ public class Table implements Data{
     }
 
     /**
->>>>>>> Stashed changes
      * Pushes a value onto the collection.
      *
      * @param value the value to be pushed onto the stack
@@ -275,36 +272,9 @@ public class Table implements Data{
         return table.isSubsetOf(this);
     }
 
-    /**
-<<<<<<< Updated upstream
-     * Subtracts the given tuple from this tuple
-=======
-     * Returns the symmetric difference between this table and the given table
-     * The symmetric difference is the set of values that are in either table
-     * but not in both
-     *
-     * @param data the table
-     * @return the symmetric difference
-     */
-    @Override
-    public Object symmetricDifference(Object data) throws IllegalArgumentException{
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
-        Table tmp = new Table();
-        Table table = (Table) data;
-        for (Tuple value : table.values) {
-            for (int i = 0; i < value.length(); i++) {
-                if (!this.contains(value.getValue(i))) {
-                    tmp.push(value);
-                }
-            }
-
-        }
-        return tmp;
-    }
 
     /**
      * Subtracts the given table from this table
->>>>>>> Stashed changes
      *
      * @param data the table
      * @return the difference
