@@ -202,7 +202,7 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public <Any> boolean contains(Any value) {
+    public <T> boolean contains(T value) {
         return this.indexOf(value) != -1;
     }
 
@@ -241,13 +241,13 @@ public class Tuple implements Data {
     }
 
     /**
-     * Appends a value of any type to the tuple
+     * Appends a value of T type to the tuple
      *
-     * @param <Any> value the value to append
+     * @param <T> value the value to append
      * @since 1.0
      */
     @Override
-    public <Any> void push(Any value) {
+    public <T> void push(T value) {
         if (value == null) {
             return;
         }
@@ -265,7 +265,7 @@ public class Tuple implements Data {
      * @param value value to insert
      * @since 1.0
      */
-    public <Any> void insert(int index, Any value) throws IndexOutOfBoundsException {
+    public <T> void insert(int index, T value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
         }
@@ -284,7 +284,7 @@ public class Tuple implements Data {
      * @param value the new value
      * @since 1.0
      */
-    public <Any> void replace(int index, Any value) throws IndexOutOfBoundsException {
+    public <T> void replace(int index, T value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
         }
@@ -322,11 +322,11 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @SuppressWarnings("unchecked")
-    public <Any> Any getValue(int index) throws IndexOutOfBoundsException {
+    public <T> T getValue(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= this.values.length) {
             throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length " + this.values.length);
         }
-        return (Any) this.values[index];
+        return (T) this.values[index];
     }
 
     /**
@@ -375,7 +375,7 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public <Any> int indexOf(Any value) {
+    public <T> int indexOf(T value) {
         for (int i = 0; i < this.values.length; i++) {
             if (value instanceof String) {
                 if (this.values[i].equals(value.toString())) {
@@ -445,7 +445,7 @@ public class Tuple implements Data {
     }
 
     /**
-     * Clears any null values from the array.
+     * Clears T null values from the array.
      */
     private void clearNulls() {
         if (this.values.length == 0) {
@@ -634,7 +634,7 @@ public class Tuple implements Data {
      *
      * @param value the value to fill the array with
      */
-    public <Any> void fill(Any value, int amount) {
+    public <T> void fill(T value, int amount) {
         if (amount < 0) { amount = 0; }
         if (amount == 0 || value == null) { return; }
         for (int i = 0; i < amount; i++) {

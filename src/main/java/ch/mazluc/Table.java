@@ -73,7 +73,7 @@ public class Table implements Data{
      * @return true if the value is contained in the function, otherwise false
      */
     @Override
-    public <Any> boolean contains(Any value) {
+    public <T> boolean contains(T value) {
         for (Tuple tuple : this.values) {
             if (tuple.contains(value)) {
                 return true;
@@ -83,12 +83,28 @@ public class Table implements Data{
     }
 
     /**
+<<<<<<< Updated upstream
+=======
+     * Sets the values of the collection.
+     *
+     * @param values an array of values to be set
+     */
+    @SafeVarargs
+    public final <T> void setValues(T... values) {
+        this.values = new Tuple[values.length];
+        for (int i = 0; i < values.length; i++) {
+            this.values[i] = new Tuple(values[i]);
+        }
+    }
+
+    /**
+>>>>>>> Stashed changes
      * Pushes a value onto the collection.
      *
      * @param value the value to be pushed onto the stack
      */
     @Override
-    public <Any> void push(Any value) throws IllegalArgumentException {
+    public <T> void push(T value) throws IllegalArgumentException {
         if (this.values.length == 0) {
             this.values = new Tuple[1];
             this.values[0] = new Tuple();
@@ -104,7 +120,7 @@ public class Table implements Data{
      * @param col index to insert the value into
      * @param value value to insert
      */
-    public <Any> void insert(int row, int col, Any value) throws IndexOutOfBoundsException {
+    public <T> void insert(int row, int col, T value) throws IndexOutOfBoundsException {
         this.values[row].insert(col, value);
     }
 
@@ -115,7 +131,7 @@ public class Table implements Data{
      * @param col the index of the element to be replaced
      * @param value the value to replace the element with
      */
-    public <Any> void replace(int row, int col, Any value) throws IndexOutOfBoundsException {
+    public <T> void replace(int row, int col, T value) throws IndexOutOfBoundsException {
         this.values[row].replace(col, value);
     }
 
@@ -142,7 +158,7 @@ public class Table implements Data{
      * @param col the index of the value
      * @return the value at the specified index
      */
-    public <Any> Any getValue(int row, int col) throws IndexOutOfBoundsException {
+    public <T> T getValue(int row, int col) throws IndexOutOfBoundsException {
         return this.values[row].getValue(col);
     }
 
@@ -153,7 +169,7 @@ public class Table implements Data{
      * @return the index of the value
      */
     @Override
-    public <Any> int indexOf(Any value) {
+    public <T> int indexOf(T value) {
         return 0;
     }
 
@@ -181,7 +197,7 @@ public class Table implements Data{
     }
 
     /**
-     * Clears the array
+     * Clears the table
      */
     @Override
     public void clear() {
@@ -208,9 +224,9 @@ public class Table implements Data{
     }
 
     /**
-     * Joins two or more tuples
+     * Joins two or more tables
      *
-     * @param datas the tuples to join
+     * @param datas the tables to join
      */
     @Override
     public void join(Object... datas) {
@@ -221,10 +237,10 @@ public class Table implements Data{
     }
 
     /**
-     * Returns true if this tuple is a subset of the given tuple
+     * Returns true if this table is a subset of the given table
      *
-     * @param data the tuple
-     * @return true if this tuple is a subset of the given tuple
+     * @param data the table
+     * @return true if this table is a subset of the given table
      */
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException {
@@ -247,10 +263,10 @@ public class Table implements Data{
     }
 
     /**
-     * Returns true if this tuple is a superset of the given tuple
+     * Returns true if this table is a superset of the given table
      *
-     * @param data the tuple
-     * @return true if this tuple is a superset of the given tuple
+     * @param data the table
+     * @return true if this table is a superset of the given table
      */
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
@@ -260,9 +276,37 @@ public class Table implements Data{
     }
 
     /**
+<<<<<<< Updated upstream
      * Subtracts the given tuple from this tuple
+=======
+     * Returns the symmetric difference between this table and the given table
+     * The symmetric difference is the set of values that are in either table
+     * but not in both
      *
-     * @param data the tuple
+     * @param data the table
+     * @return the symmetric difference
+     */
+    @Override
+    public Object symmetricDifference(Object data) throws IllegalArgumentException{
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        Table tmp = new Table();
+        Table table = (Table) data;
+        for (Tuple value : table.values) {
+            for (int i = 0; i < value.length(); i++) {
+                if (!this.contains(value.getValue(i))) {
+                    tmp.push(value);
+                }
+            }
+
+        }
+        return tmp;
+    }
+
+    /**
+     * Subtracts the given table from this table
+>>>>>>> Stashed changes
+     *
+     * @param data the table
      * @return the difference
      */
     @Override
@@ -281,33 +325,43 @@ public class Table implements Data{
     }
 
     /**
-     * Filters the tuple using `Predicates`
+     * Filters the table using `Predicates`
+     * Returns the Tuples containing the values that match the predicate
      *
      * @param predicate the predicate
-     * @return the filtered tuple
+     * @return the filtered table
      */
     @Override
     public Object filter(Predicate<Object> predicate) {
         Table result = new Table();
         for (Tuple value : this.values) {
             if (predicate.test(value)) {
-                result.push(value.filter(predicate));
+                result.push(value);
             }
         }
         return result;
     }
 
     /**
-     * Returns true if this tuple is disjoint from the given tuple
-     * Disjunction is the set of values that are in either tuple
+     * Returns true if this table is disjoint from the given table
+     * Disjunction is the set of values that are in either table
      * but not in both
      *
-     * @param data the tuple
-     * @return true if this tuple is disjoint from the given tuple
+     * @param data the table
+     * @return true if this table is disjoint from the given table
      */
     @Override
     public boolean isDisjoint(Object data) {
-        return false;
+        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        Table table = (Table) data;
+        for (Tuple value : table.values) {
+            for (int i = 0; i < value.length(); i++) {
+                if (this.contains(value.getValue(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
