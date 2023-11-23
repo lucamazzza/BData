@@ -8,10 +8,21 @@ class TableTest {
 
     @Test
     void length() {
+        Table table = new Table();
+        assertEquals(0, table.length());
+        table.push(new Tuple(0, 1, 2));
+        assertEquals(1, table.length());
+        table.push(new Tuple(3, 4, 5));
     }
 
     @Test
     void isEmpty() {
+        Table table = new Table();
+        assertTrue(table.isEmpty());
+        table.push(new Tuple(0, 1, 2));
+        table.push(new Tuple(3, 4, 5));
+        assertFalse(table.isEmpty());
+        System.out.println(table);
     }
 
     @Test

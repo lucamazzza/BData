@@ -1,5 +1,6 @@
 package ch.mazluc;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -74,6 +75,7 @@ public class Table implements Data{
      */
     @Override
     public <T> boolean contains(T value) {
+        if (this.isEmpty()) { return false; }
         for (Tuple tuple : this.values) {
             if (tuple.contains(value)) {
                 return true;
@@ -104,10 +106,13 @@ public class Table implements Data{
     public <T> void push(T value) throws IllegalArgumentException {
         if (this.values.length == 0) {
             this.values = new Tuple[1];
-            this.values[0] = new Tuple();
+            this.values[0] = (value instanceof Tuple) ? (Tuple) value : new Tuple(value);
+            return;
         }
-        if (value.getClass() != Tuple.class) { throw new IllegalArgumentException("Object is not a tuple"); }
-        this.values[this.values.length - 1].push(value);
+        Tuple[] tmp = new Tuple[this.length() + 1];
+        arraycopy(this.values, 0, tmp, 0, this.length());
+        tmp[tmp.length - 1] = (value instanceof Tuple) ? (Tuple) value : new Tuple(value);
+        this.values = tmp;
     }
 
     /**
@@ -118,6 +123,9 @@ public class Table implements Data{
      * @param value value to insert
      */
     public <T> void insert(int row, int col, T value) throws IndexOutOfBoundsException {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+        }
         this.values[row].insert(col, value);
     }
 
@@ -129,6 +137,9 @@ public class Table implements Data{
      * @param value the value to replace the element with
      */
     public <T> void replace(int row, int col, T value) throws IndexOutOfBoundsException {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+        }
         this.values[row].replace(col, value);
     }
 
@@ -156,6 +167,9 @@ public class Table implements Data{
      * @return the value at the specified index
      */
     public <T> T getValue(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+        }
         return this.values[row].getValue(col);
     }
 
@@ -190,6 +204,9 @@ public class Table implements Data{
      * @param col the index of the element to be removed
      */
     public void remove(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+        }
         this.values[row].remove(col);
     }
 
@@ -332,6 +349,15 @@ public class Table implements Data{
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String out = "";
+        for (Object value : this.values) {
+            out += value + "\n";
+        }
+        return out;
     }
 
     /**
