@@ -31,8 +31,10 @@ public class Table implements Data{
      * Creates a new table with the specified size
      * @param size the size of the table
      */
-    public Table(int size){
-        this.values = new Tuple[size];
+    public Table(int rows, int cols){
+        for (int i = 0; i < rows; i++) {
+            this.push(new Tuple(cols));
+        }
     }
 
     /**
@@ -91,9 +93,11 @@ public class Table implements Data{
      */
     @SafeVarargs
     public final <T> void setValues(T... values) {
-        this.values = new Tuple[values.length];
-        for (int i = 0; i < values.length; i++) {
-            this.values[i] = new Tuple(values[i]);
+        for (T value : values) {
+            if (value == null) {
+                continue;
+            }
+            this.push(value);
         }
     }
 
@@ -123,7 +127,7 @@ public class Table implements Data{
      * @param value value to insert
      */
     public <T> void insert(int row, int col, T value) throws IndexOutOfBoundsException {
-        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
             throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
         }
         this.values[row].insert(col, value);
@@ -137,7 +141,7 @@ public class Table implements Data{
      * @param value the value to replace the element with
      */
     public <T> void replace(int row, int col, T value) throws IndexOutOfBoundsException {
-        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
             throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
         }
         this.values[row].replace(col, value);
@@ -167,7 +171,7 @@ public class Table implements Data{
      * @return the value at the specified index
      */
     public <T> T getValue(int row, int col) throws IndexOutOfBoundsException {
-        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
             throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
         }
         return this.values[row].getValue(col);
@@ -179,9 +183,18 @@ public class Table implements Data{
      * @param value the value to search
      * @return the index of the value
      */
-    @Override
-    public <T> int indexOf(T value) {
-        return 0;
+    public <T> int[] indexOf(T value) {
+        int[] coordinates = new int[2];
+        for (int i = 0; i < this.values.length; i++) {
+            for (int j = 0; j < this.values[i].length(); j++) {
+                if (this.values[i].getValue(j).equals(value)) {
+                    coordinates[0] = i;
+                    coordinates[1] = j;
+                    return coordinates;
+                }
+            }
+        }
+        return coordinates;
     }
 
     /**
@@ -204,7 +217,7 @@ public class Table implements Data{
      * @param col the index of the element to be removed
      */
     public void remove(int row, int col) throws IndexOutOfBoundsException {
-        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values.length) {
+        if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
             throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
         }
         this.values[row].remove(col);
@@ -245,8 +258,10 @@ public class Table implements Data{
     @Override
     public void join(Object... datas) {
         for (Object data : datas) {
-            if (data.getClass() != Table.class) { continue; }
-            this.push(data);
+            if (!isTable(data)) { continue; }
+            for (Tuple value : ((Table) data).values) {
+                this.push(value);
+            }
         }
     }
 

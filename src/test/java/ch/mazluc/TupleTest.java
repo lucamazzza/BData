@@ -179,7 +179,7 @@ class TupleTest {
 
     @Test
     void indexOf() {
-        Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
+        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         assertEquals(0, tuple.indexOf(0));
         assertEquals(1, tuple.indexOf(1));
         assertEquals(2, tuple.indexOf(2));

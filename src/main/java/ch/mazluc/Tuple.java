@@ -374,7 +374,6 @@ public class Tuple implements Data {
      * @return the index of the value
      * @since 1.0
      */
-    @Override
     public <T> int indexOf(T value) {
         for (int i = 0; i < this.values.length; i++) {
             if (value instanceof String) {

@@ -51,15 +51,6 @@ public interface Data extends Iterable<Object> {
     void swap(int index1, int index2) throws IndexOutOfBoundsException;
 
     /**
-     * Returns the index of a specified value
-     *
-     * @param value the value to search
-     * @return the index of the value
-     * @param <Any> the type
-     */
-    <Any> int indexOf(Any value);
-
-    /**
      * Removes the value at the last index
      */
     void pop();
