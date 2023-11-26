@@ -7,9 +7,6 @@ repositories {
     mavenCentral()
 }
 
-group = 'ch.mazluc'
-version = '1.0.0'
-
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
@@ -18,22 +15,53 @@ test {
     useJUnitPlatform()
 }
 
+group = "ch.mazluc"
+version = "1.0.0"
+
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = 'ch.mazluc'
-            artifactId = 'bdata'
-            version = '1.0.0'
-            from components.java
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'bdata'
+                packaging = 'jar'
+                description = 'A better structured data types library for Java'
+                url = 'https://github.com/lucamazzza/BData'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/lucamazzza/BData/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'mazluc'
+                        name = 'Luca Mazza'
+                        email = 'luca.mazza@mazluc.ch'
+                    }
+                }
+                groupId = 'ch.mazluc'
+                artifactId = 'bdata'
+                version = '1.0.0'
+                from components.java
+            }
         }
     }
+
     repositories {
         maven {
             name = "BData"
             url = uri("https://maven.pkg.github.com/lucamazzza/BData")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GUSERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user")
+                password = project.findProperty("gpr.key")
+            }
+        }
+        maven {
+            name = "BData"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = project.findProperty("ossrhUsername")
+                password = project.findProperty("ossrhPassword")
             }
         }
     }

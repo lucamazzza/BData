@@ -77,7 +77,7 @@ public class Tuple implements Data {
      * @param obj the object to be checked
      * @return  true if the object is an instance of Tuple, false otherwise
      */
-    private static boolean isTuple(Object obj) {
+    static boolean isTuple(Object obj) {
         return obj.getClass() == Tuple.class;
     }
 
@@ -202,7 +202,7 @@ public class Tuple implements Data {
      * @since 1.0
      */
     @Override
-    public <Any> boolean contains(Any value) {
+    public <T> boolean contains(T value) {
         return this.indexOf(value) != -1;
     }
 
@@ -231,7 +231,6 @@ public class Tuple implements Data {
      * @param values the new values of the tuple
      * @since 1.0
      */
-    @Override
     public void setValues(Object... values){
         if (values.length == 0) {
             this.values = new Object[0];
@@ -242,13 +241,13 @@ public class Tuple implements Data {
     }
 
     /**
-     * Appends a value of any type to the tuple
+     * Appends a value of T type to the tuple
      *
-     * @param <Any> value the value to append
+     * @param <T> value the value to append
      * @since 1.0
      */
     @Override
-    public <Any> void push(Any value) {
+    public <T> void push(T value) {
         if (value == null) {
             return;
         }
@@ -266,8 +265,7 @@ public class Tuple implements Data {
      * @param value value to insert
      * @since 1.0
      */
-    @Override
-    public <Any> void insert(int index, Any value) throws IndexOutOfBoundsException {
+    public <T> void insert(int index, T value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
         }
@@ -286,8 +284,7 @@ public class Tuple implements Data {
      * @param value the new value
      * @since 1.0
      */
-    @Override
-    public <Any> void replace(int index, Any value) throws IndexOutOfBoundsException {
+    public <T> void replace(int index, T value) throws IndexOutOfBoundsException {
         if (value == null) {
             return;
         }
@@ -324,13 +321,12 @@ public class Tuple implements Data {
      * @return the value at the specified index
      * @since 1.0
      */
-    @Override
     @SuppressWarnings("unchecked")
-    public <Any> Any getValue(int index) throws IndexOutOfBoundsException {
+    public <T> T getValue(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= this.values.length) {
             throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length " + this.values.length);
         }
-        return (Any) this.values[index];
+        return (T) this.values[index];
     }
 
     /**
@@ -378,8 +374,7 @@ public class Tuple implements Data {
      * @return the index of the value
      * @since 1.0
      */
-    @Override
-    public <Any> int indexOf(Any value) {
+    public <T> int indexOf(T value) {
         for (int i = 0; i < this.values.length; i++) {
             if (value instanceof String) {
                 if (this.values[i].equals(value.toString())) {
@@ -423,7 +418,6 @@ public class Tuple implements Data {
      * @param index the index of the element to be removed
      * @since 1.0
      */
-    @Override
     public void remove(int index) throws IndexOutOfBoundsException {
         if (this.values.length == 0) {
             return;
@@ -450,7 +444,7 @@ public class Tuple implements Data {
     }
 
     /**
-     * Clears any null values from the array.
+     * Clears T null values from the array.
      */
     private void clearNulls() {
         if (this.values.length == 0) {
@@ -514,7 +508,6 @@ public class Tuple implements Data {
      *
      * @since 1.0
      */
-    @Override
     public void sort() {
         if (this.values.length == 0) {
             return;
@@ -560,7 +553,6 @@ public class Tuple implements Data {
      *
      * @since 1.0
      */
-    @Override
     public void reverse() {
         if (this.values.length == 0 || this.values.length == 1) {
             return;
@@ -641,7 +633,7 @@ public class Tuple implements Data {
      *
      * @param value the value to fill the array with
      */
-    public <Any> void fill(Any value, int amount) {
+    public <T> void fill(T value, int amount) {
         if (amount < 0) { amount = 0; }
         if (amount == 0 || value == null) { return; }
         for (int i = 0; i < amount; i++) {
@@ -669,7 +661,6 @@ public class Tuple implements Data {
     /**
      * Fills the values array with random integers between 0 and 99 (inclusive).
      */
-    @Override
     public void fillRandom(int min, int max, int amount) {
         if (amount < 0 || amount > this.values.length) {
             amount = 0;
@@ -732,7 +723,6 @@ public class Tuple implements Data {
      * @param data the tuple to compare against
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
-    @Override
     public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         if (this.length() < ((Tuple) data).length()) {
@@ -758,7 +748,6 @@ public class Tuple implements Data {
      * @param data the tuple to compare against
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
-    @Override
     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         if (this.length() > ((Tuple) data).length()) {
@@ -805,7 +794,6 @@ public class Tuple implements Data {
      * @param data the tuple
      * @return the symmetric difference
      */
-    @Override
     public Object symmetricDifference(Object data) throws IllegalArgumentException {
         if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
         Tuple tuple = (Tuple) data;
