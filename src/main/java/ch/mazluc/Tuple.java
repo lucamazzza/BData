@@ -77,7 +77,7 @@ public class Tuple implements Data {
      * @param obj the object to be checked
      * @return  true if the object is an instance of Tuple, false otherwise
      */
-    private static boolean isTuple(Object obj) {
+    static boolean isTuple(Object obj) {
         return obj.getClass() == Tuple.class;
     }
 

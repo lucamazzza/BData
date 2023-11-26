@@ -29,7 +29,8 @@ public class Table implements Data{
 
     /**
      * Creates a new table with the specified size
-     * @param size the size of the table
+     * @param rows the number of rows in the table and
+     * @param cols the number of columns in the table
      */
     public Table(int rows, int cols){
         for (int i = 0; i < rows; i++) {
@@ -69,6 +70,18 @@ public class Table implements Data{
         return this.values.length == 0;
     }
 
+    public boolean equals(Table table) {
+        if (this.length() != table.length()) {
+            return false;
+        }
+        for (int i = 0; i < this.length(); i++) {
+            if (!this.values[i].equals(table.values[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Determines whether the function contains the specified value.
      *
@@ -78,6 +91,14 @@ public class Table implements Data{
     @Override
     public <T> boolean contains(T value) {
         if (this.isEmpty()) { return false; }
+        if (Tuple.isTuple(value)) {
+            for (Tuple tuple : this.values) {
+                if (tuple.equals(value)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         for (Tuple tuple : this.values) {
             if (tuple.contains(value)) {
                 return true;
@@ -93,6 +114,7 @@ public class Table implements Data{
      */
     @SafeVarargs
     public final <T> void setValues(T... values) {
+        this.clear();
         for (T value : values) {
             if (value == null) {
                 continue;
@@ -275,20 +297,17 @@ public class Table implements Data{
     public boolean isSubsetOf(Object data) throws IllegalArgumentException {
         if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
         Table table = (Table) data;
-        if (this.values.length < table.values.length) {
+        if (this.length() > table.length()) {
             return false;
         }
-        int counter = 0;
-        int length = 0;
-        for (Tuple value : this.values) {
-            for (int j = 0; j < value.length(); j++) {
-                if (value.contains(table.values[j])) {
-                    counter++;
-                    length += value.length();
-                }
+        int count = 0;
+        for (int i = 0; i < table.length(); i++) {
+            if (this.contains(table.values[i])) {
+                count++;
             }
         }
-        return counter == length;
+        return count == this.length();
+
     }
 
     /**
@@ -316,11 +335,9 @@ public class Table implements Data{
         if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
         Table tmp = new Table();
         Table table = (Table) data;
-        for (Tuple value : table.values) {
-            for (int i = 0; i < value.length(); i++) {
-                if (!this.contains(value.getValue(i))) {
-                    tmp.push(value);
-                }
+        for (Tuple value : this.values) {
+            if (!table.contains(value)) {
+                tmp.push(value);
             }
         }
         return tmp;
@@ -335,10 +352,10 @@ public class Table implements Data{
      */
     @Override
     public Object filter(Predicate<Object> predicate) {
-        Table result = new Table();
+        Tuple result = new Tuple();
         for (Tuple value : this.values) {
-            if (predicate.test(value)) {
-                result.push(value);
+            if(!((Tuple)value.filter(predicate)).isEmpty()) {
+                result.join(value.filter(predicate));
             }
         }
         return result;
@@ -391,7 +408,7 @@ public class Table implements Data{
             }
 
             @Override
-            public Object next() {
+            public Tuple next() {
                 return values[currentIndex++];
             }
         };

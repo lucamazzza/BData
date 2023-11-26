@@ -68,7 +68,11 @@ class TableTest {
     @Test
     void insert() {
         Table table = new Table();
-        table.setValues(new Tuple(6.5e13, 1, false), new Tuple(1, 'e', 3), new Tuple(3, 4.4, 5));
+        table.setValues(
+                new Tuple(6.5e13, 1, false),
+                new Tuple(1, 'e', 3),
+                new Tuple(3, 4.4, 5)
+        );
         table.insert(0, 0, 6);
         table.insert(1, 1, 7);
         table.insert(2, 2, 8);
@@ -84,7 +88,11 @@ class TableTest {
     @Test
     void replace() {
         Table table = new Table();
-        table.setValues(new Tuple(0, "1", false), new Tuple(1, 3.3, 3), new Tuple(3, 4f, 5));
+        table.setValues(
+                new Tuple(0, "1", false),
+                new Tuple(1, 3.3, 3),
+                new Tuple(3, 4f, 5)
+        );
         table.replace(0, 0, 6);
         table.replace(1, 1, 7);
         table.replace(2, 2, 8);
@@ -100,12 +108,16 @@ class TableTest {
     @Test
     void swap() {
         Table table = new Table();
-        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         table.swap(0, 1);
         table.swap(1, 2);
         assertEquals(3, (int)table.getValue(0,0));
         assertEquals(0, (int)table.getValue(2,0));
-        assertEquals(false, (boolean)table.getValue(1,4));
+        assertFalse((boolean) table.getValue(1, 4));
         assertNotEquals(2, (int)table.getValue(0,0));
         assertNotEquals(1, (int)table.getValue(1,0));
     }
@@ -113,7 +125,11 @@ class TableTest {
     @Test
     void getValue() {
         Table table = new Table();
-        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         assertEquals(0, (int)table.getValue(0,0));
         assertEquals(3, (int)table.getValue(1,0));
         assertEquals(7, (int)table.getValue(2,0));
@@ -124,7 +140,11 @@ class TableTest {
     @Test
     void indexOf() {
         Table table = new Table();
-        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         assertArrayEquals(new int[]{0, 0}, table.indexOf(0));
         assertArrayEquals(new int[]{0, 1}, table.indexOf(1));
         assertArrayEquals(new int[]{0, 2}, table.indexOf(2));
@@ -141,7 +161,11 @@ class TableTest {
 
     @Test
     void pop() {
-        Table table = new Table(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        Table table = new Table(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         table.pop();
         assertEquals(2, table.length());
         table.pop();
@@ -154,7 +178,11 @@ class TableTest {
 
     @Test
     void remove() {
-        Table table = new Table(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        Table table = new Table(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         table.remove(0, 0);
         assertEquals(3, table.length());
         assertFalse(table.contains(0));
@@ -172,7 +200,10 @@ class TableTest {
     @Test
     void clear() {
         Table table = new Table();
-        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        table.setValues(new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         table.clear();
         assertEquals(0, table.length());
         assertFalse(table.contains(5));
@@ -185,7 +216,11 @@ class TableTest {
     @Test
     void slice() {
         Table table = new Table();
-        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2", false));
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
         table.slice(0, 2);
         assertEquals(2, table.length());
         assertEquals(0, (int)table.getValue(0,0));
@@ -222,37 +257,95 @@ class TableTest {
 
     @Test
     void isSubsetOf() {
+        Table table = new Table();
+        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6));
+        Table table1 = new Table();
+        table1.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2"));
+        assertTrue(table.isSubsetOf(table1));
+        table1.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9, "2"));
+        assertTrue(table.isSubsetOf(table1));
+        table1.setValues(new Tuple(0, 1, 2));
+        assertFalse(table.isSubsetOf(table1));
     }
 
     @Test
     void isSupersetOf() {
-    }
-
-    @Test
-    void isStrictSubsetOf() {
-    }
-
-    @Test
-    void isStrictSupersetOf() {
-    }
-
-    @Test
-    void symmetricDifference() {
+        Table table = new Table();
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
+        Table table1 = new Table();
+        table1.setValues(new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
+        assertTrue(table.isSupersetOf(table1));
+        table1.setValues(new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false),
+                new Tuple(10, 11, 12, "3", true)
+        );
+        assertFalse(table.isSupersetOf(table1));
+        table1.setValues(new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false),
+                new Tuple(10, 11, 12, "3", true),
+                new Tuple(13, 14, 15, "4", false)
+        );
+        assertFalse(table.isSupersetOf(table1));
     }
 
     @Test
     void subtract() {
+        Table table = new Table();
+        Table table1 = new Table();
+        table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9));
+        table1.setValues(new Tuple(0, 1, 2));
+        System.out.println(table.subtract(table1));
+        Table comp = new Table(new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9));
+        Table subt = (Table) table.subtract(table1);
+        assertTrue(comp.equals(subt));
     }
 
     @Test
     void filter() {
+        Table table = new Table();
+        table.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3.0, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
+        assertEquals("[2]", table.filter(t -> t instanceof String).toString());
+        assertEquals("[0, 1, 2, 4, 5, 6, 7, 8, 9]", table.filter(t -> t instanceof Integer).toString());
+        assertEquals("[3.0]", table.filter(t -> t instanceof Double).toString());
+        assertEquals("[0, 1, 2, 3.0, 4, 5, 6, 7, 8, 9]", table.filter(t -> t instanceof Number).toString());
     }
 
     @Test
     void isDisjoint() {
-    }
-
-    @Test
-    void iterator() {
+        Table table = new Table();
+        table.setValues(new Tuple("ciao", true), new Tuple(0.2, 4.4f));
+        Table table1 = new Table();
+        table1.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false)
+        );
+        assertTrue(table.isDisjoint(table1));
+        table1.setValues(
+                new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false),
+                new Tuple(10, 11, 12, "3", true)
+        );
+        assertFalse(table.isDisjoint(table1));
+        table1.setValues(new Tuple(0, 1, 2),
+                new Tuple(3, 4, 5, 6),
+                new Tuple(7, 8, 9, "2", false),
+                new Tuple(10, 11, 12, "3", false)
+        );
+        assertTrue(table.isDisjoint(table1));
     }
 }
