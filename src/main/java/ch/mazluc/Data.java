@@ -30,17 +30,17 @@ public interface Data extends Iterable<Object> {
      *
      * @param value the value to be checked if it is contained in the function
      * @return true if the value is contained in the function, otherwise false
-     * @param <Any> the type
+     * @param <T> the type
      */
-    <Any>boolean contains(Any value);
+    <T>boolean contains(T value);
 
     /**
      * Pushes a value onto the collection.
      *
      * @param value the value to be pushed onto the stack
-     * @param <Any> the type
+     * @param <T> the type
      */
-    <Any> void push(Any value);
+    <T> void push(T value);
 
     /**
      * Swaps the elements at the specified indices in the array.

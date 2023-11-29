@@ -1,7 +1,7 @@
 package ch.mazluc;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import static java.lang.System.arraycopy;
@@ -14,6 +14,9 @@ import static java.lang.System.arraycopy;
  * @since 1.0
  */
 public class Table implements Data{
+
+    private static final String IOOBE = "Index out of bounds for length ";
+    private static final String OINAT = "Object is not a table";
 
     /**
      * The values of the table
@@ -28,17 +31,6 @@ public class Table implements Data{
     }
 
     /**
-     * Creates a new table with the specified size
-     * @param rows the number of rows in the table and
-     * @param cols the number of columns in the table
-     */
-    public Table(int rows, int cols){
-        for (int i = 0; i < rows; i++) {
-            this.push(new Tuple(cols));
-        }
-    }
-
-    /**
      * Creates a new table with the specified values
      * @param values the values
      */
@@ -46,8 +38,8 @@ public class Table implements Data{
         this.values = values;
     }
 
-    private static boolean isTable(Object data) {
-        return data.getClass() == Table.class;
+    private static boolean isTable(Object o) {
+        return o.getClass() == Table.class;
     }
 
     /**
@@ -70,7 +62,10 @@ public class Table implements Data{
         return this.values.length == 0;
     }
 
-    public boolean equals(Table table) {
+    @Override
+    public boolean equals(Object o) throws IllegalArgumentException {
+        if (!isTable(o)) { throw new IllegalArgumentException(OINAT); }
+        Table table = (Table) o;
         if (this.length() != table.length()) {
             return false;
         }
@@ -80,6 +75,15 @@ public class Table implements Data{
             }
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        for (Tuple value : this.values) {
+            hashCode += value.hashCode();
+        }
+        return hashCode;
     }
 
     /**
@@ -132,12 +136,12 @@ public class Table implements Data{
     public <T> void push(T value) throws IllegalArgumentException {
         if (this.values.length == 0) {
             this.values = new Tuple[1];
-            this.values[0] = (value instanceof Tuple) ? (Tuple) value : new Tuple(value);
+            this.values[0] = (value instanceof Tuple t) ? t : new Tuple(value);
             return;
         }
         Tuple[] tmp = new Tuple[this.length() + 1];
         arraycopy(this.values, 0, tmp, 0, this.length());
-        tmp[tmp.length - 1] = (value instanceof Tuple) ? (Tuple) value : new Tuple(value);
+        tmp[tmp.length - 1] = (value instanceof Tuple t) ? t : new Tuple(value);
         this.values = tmp;
     }
 
@@ -150,7 +154,7 @@ public class Table implements Data{
      */
     public <T> void insert(int row, int col, T value) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
         }
         this.values[row].insert(col, value);
     }
@@ -164,7 +168,7 @@ public class Table implements Data{
      */
     public <T> void replace(int row, int col, T value) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
         }
         this.values[row].replace(col, value);
     }
@@ -178,7 +182,7 @@ public class Table implements Data{
     @Override
     public void swap(int index1, int index2) throws IndexOutOfBoundsException {
         if (index1 < 0 || index2 < 0 || index1 >= this.values.length || index2 >= this.values.length) {
-            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
         }
         Tuple temp = this.values[index1];
         this.values[index1] = this.values[index2];
@@ -194,7 +198,7 @@ public class Table implements Data{
      */
     public <T> T getValue(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
         }
         return this.values[row].getValue(col);
     }
@@ -240,7 +244,7 @@ public class Table implements Data{
      */
     public void remove(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException("Index out of bounds for length " + this.values.length);
+            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
         }
         this.values[row].remove(col);
     }
@@ -295,7 +299,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException {
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
         Table table = (Table) data;
         if (this.length() > table.length()) {
             return false;
@@ -318,7 +322,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
         Table table = (Table) data;
         return table.isSubsetOf(this);
     }
@@ -332,7 +336,7 @@ public class Table implements Data{
      */
     @Override
     public Object subtract(Object data) {
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
         Table tmp = new Table();
         Table table = (Table) data;
         for (Tuple value : this.values) {
@@ -371,7 +375,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isDisjoint(Object data) {
-        if (!isTable(data)) { throw new IllegalArgumentException("Object is not a table"); }
+        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
         Table table = (Table) data;
         for (Tuple value : table.values) {
             for (int i = 0; i < value.length(); i++) {
@@ -385,11 +389,9 @@ public class Table implements Data{
 
     @Override
     public String toString() {
-        String out = "";
-        for (Object value : this.values) {
-            out += value + "\n";
-        }
-        return out;
+        StringBuilder out = new StringBuilder();
+        for (Object value : this.values) out.append(value).append("\n");
+        return out.toString();
     }
 
     /**
@@ -408,7 +410,8 @@ public class Table implements Data{
             }
 
             @Override
-            public Tuple next() {
+            public Tuple next() throws NoSuchElementException {
+                if (!hasNext()) { throw new NoSuchElementException(); }
                 return values[currentIndex++];
             }
         };

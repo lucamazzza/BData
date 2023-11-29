@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -17,6 +18,8 @@ import static java.lang.System.arraycopy;
  * @since 1.0
  */
 public class Tuple implements Data {
+
+    private static final String OINAT = "Object is not a tuple";
 
     /**
      * Constant containing the types of values that the tuple can contain
@@ -97,52 +100,52 @@ public class Tuple implements Data {
         Tuple vals = (Tuple) values;
         Tuple tuple = vals.getValuesOfType(type);
         for (int i = 1; i < tuple.length(); i++) {
-            if (type == TYPES[0]) { // boolean
-                if ((boolean) tuple.getValue(i) && !(boolean) tuple.getValue(i - 1)) {
-                    tuple.swap(i, i - 1);
-                    i = 0;
-                }
+            if (type == TYPES[0] && (boolean) tuple.getValue(i) && !(boolean) tuple.getValue(i - 1)) { // boolean
+                tuple.swap(i, i - 1);
+                i = 0;
             } else if (
-                    type == TYPES[1]
-                            || type == TYPES[2]
-                            || type == TYPES[3]
-                            || type == TYPES[4]
-                            || type == TYPES[5]
-                            || type == TYPES[6]
+                    (
+                        type == TYPES[1] ||
+                        type == TYPES[2] ||
+                        type == TYPES[3] ||
+                        type == TYPES[4] ||
+                        type == TYPES[5] ||
+                        type == TYPES[6]
+                    ) && (
+                        (type == TYPES[1] && (byte) tuple.getValue(i) < (byte) tuple.getValue(i - 1)) ||
+                        (type == TYPES[2] && (short) tuple.getValue(i) < (short) tuple.getValue(i - 1)) ||
+                        (type == TYPES[3] && (int) tuple.getValue(i) < (int) tuple.getValue(i - 1)) ||
+                        (type == TYPES[4] && (long) tuple.getValue(i) < (long) tuple.getValue(i - 1)) ||
+                        (type == TYPES[5] && (float) tuple.getValue(i) < (float) tuple.getValue(i - 1)) ||
+                        (type == TYPES[6] && (double) tuple.getValue(i) < (double) tuple.getValue(i - 1))
+                    )
             ) { // Number
-                if (
-                        (type == TYPES[1] && (byte) tuple.getValue(i) < (byte) tuple.getValue(i - 1))
-                                || (type == TYPES[2] && (short) tuple.getValue(i) < (short) tuple.getValue(i - 1))
-                                || (type == TYPES[3] && (int) tuple.getValue(i) < (int) tuple.getValue(i - 1))
-                                || (type == TYPES[4] && (long) tuple.getValue(i) < (long) tuple.getValue(i - 1))
-                                || (type == TYPES[5] && (float) tuple.getValue(i) < (float) tuple.getValue(i - 1))
-                                || (type == TYPES[6] && (double) tuple.getValue(i) < (double) tuple.getValue(i - 1))
-                ) {
+                tuple.swap(i, i - 1);
+                i = 0;
+            } else if (
+                    (
+                    type == TYPES[7] ||
+                    type == TYPES[8]
+                    ) && (
+                    (
+                        type == TYPES[7] &&
+                        ((BigInteger) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0
+                    ) || (
+                        type == TYPES[8] &&
+                        ((BigDecimal) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0)
+                    )
+            ) { // BigNumber
                     tuple.swap(i, i - 1);
                     i = 0;
-                }
-            } else if (type == TYPES[7] || type == TYPES[8]) { // BigNumber
-                if (
-                        (type == TYPES[7] &&
-                                ((BigInteger) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0) ||
-                                (type == TYPES[8] &&
-                                        ((BigDecimal) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0)
-                ) {
-                    tuple.swap(i, i - 1);
-                    i = 0;
-                }
-            } else if (type == TYPES[9]) { // Character
-                if ((char) tuple.getValue(i) < (char) tuple.getValue(i - 1)) {
-                    tuple.swap(i, i - 1);
-                    i = 0;
-                }
-            } else if (type == TYPES[10]) { // String
-                if (((String) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0) {
-                    tuple.swap(i, i - 1);
-                    i = 0;
-                }
-            } else {
-                return tuple;
+            } else if (type == TYPES[9] && (char) tuple.getValue(i) < (char) tuple.getValue(i - 1)) { // Character
+                tuple.swap(i, i - 1);
+                i = 0;
+            } else if (
+                    type == TYPES[10] &&
+                            ((String) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0
+            ) { // String
+                tuple.swap(i, i - 1);
+                i = 0;
             }
         }
         return tuple;
@@ -330,18 +333,6 @@ public class Tuple implements Data {
     }
 
     /**
-     * Returns the values of the tuple
-     * Do not use externally, Arrays of
-     * Objects are not as good as you think
-     *
-     * @return the values of the tuple
-     * @since 1.0
-     */
-    private Object[] getValues() {
-        return this.values;
-    }
-
-    /**
      * Returns a new tuple with only the values of the specified type
      *
      * @param type the type of the values (to pass as `Class.class`, for example `Integer.class`)
@@ -376,20 +367,14 @@ public class Tuple implements Data {
      */
     public <T> int indexOf(T value) {
         for (int i = 0; i < this.values.length; i++) {
-            if (value instanceof String) {
-                if (this.values[i].equals(value.toString())) {
-                    return i;
-                }
+            if (value instanceof String && this.values[i].equals(value.toString())) {
+                return i;
             }
-            if (value instanceof Tuple) {
-                if (this.values[i].equals(value)) {
-                    return i;
-                }
+            if (value instanceof Tuple && this.values[i].equals(value)) {
+                return i;
             }
-            if (value != null && this.values[i] != null) {
-                if (this.values[i].equals(value)) {
-                    return i;
-                }
+            if (value != null && this.values[i] != null && this.values[i].equals(value)) {
+                return i;
             }
             if (this.values[i] == value) {
                 return i;
@@ -593,7 +578,7 @@ public class Tuple implements Data {
      * @since 1.0
      */
     public void split(int index, Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (index > this.values.length) {
             index = this.values.length;
         }
@@ -686,7 +671,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (this.length() > ((Tuple) data).length()) {
             return false;
         }
@@ -707,7 +692,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (this.length() < ((Tuple) data).length()) {
             return false;
         }
@@ -724,7 +709,7 @@ public class Tuple implements Data {
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
     public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (this.length() < ((Tuple) data).length()) {
             return false;
         }
@@ -749,7 +734,7 @@ public class Tuple implements Data {
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (this.length() > ((Tuple) data).length()) {
             return false;
         }
@@ -773,7 +758,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isDisjoint(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         if (data.equals(this)) {
             return false;
         }
@@ -795,7 +780,7 @@ public class Tuple implements Data {
      * @return the symmetric difference
      */
     public Object symmetricDifference(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         Tuple tuple = (Tuple) data;
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
@@ -819,7 +804,7 @@ public class Tuple implements Data {
      */
     @Override
     public Object subtract(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException("Object is not a tuple"); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
         Tuple tmp = (Tuple) data;
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
@@ -870,6 +855,7 @@ public class Tuple implements Data {
 
             @Override
             public Object next() {
+                if (!hasNext()) { throw new NoSuchElementException(); }
                 return values[currentIndex++];
             }
         };

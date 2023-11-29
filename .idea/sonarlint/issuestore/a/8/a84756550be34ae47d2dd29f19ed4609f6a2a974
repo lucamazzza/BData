@@ -1,0 +1,23 @@
+
+t	java:S127i"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ş¼Ş¢8¯€çÁ1
+t	java:S127|"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ş¼Ş¢8¯€çÁ1
+u	java:S127‹"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ş¼Ş¢8¯€çÁ1
+u	java:S127"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ş¼Ş¢8¯€çÁ1
+u	java:S127”"XRefactor the code in order to not assign to this loop counter from within the loop body.(Ş¼Ş¢8¯€çÁ1
+t	java:S127¹"XRefactor the code in order to not assign to this loop counter from within the loop body.(¨…ÄK8¯€çÁ1
+d
+java:S2259¹"G"NullPointerException" will be thrown when invoking method "isTuple()".(’òŸ8ÿ²€çÁ1
+t
+java:S3776`"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(ŒôËÜıÿÿÿÿ8‚³€çÁ1
+k
+java:S1871‰"MThis branch's code block is the same as the block for the branch on line 103.(‰¢ƒ¥8ƒ³€çÁ1
+p
+java:S1871Œ"MThis branch's code block is the same as the block for the branch on line 103.(´ø¶İşÿÿÿÿ8ƒ³€çÁ1
+o
+java:S1871z"MThis branch's code block is the same as the block for the branch on line 103.(Ï‰óÒÿÿÿÿÿ8ƒ³€çÁ1
+p
+java:S1871’"MThis branch's code block is the same as the block for the branch on line 103.(Áß®ìùÿÿÿÿ8ƒ³€çÁ1
+G
+java:S2140‚")Use "java.util.Random.nextInt()" instead.(ë»’Ú8³€çÁ1
+G
+java:S2140–")Use "java.util.Random.nextInt()" instead.(¾ìÜ¡8‘³€çÁ1
