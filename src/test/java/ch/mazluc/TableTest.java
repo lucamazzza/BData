@@ -303,10 +303,9 @@ class TableTest {
         Table table1 = new Table();
         table.setValues(new Tuple(0, 1, 2), new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9));
         table1.setValues(new Tuple(0, 1, 2));
-        System.out.println(table.subtract(table1));
         Table comp = new Table(new Tuple(3, 4, 5, 6), new Tuple(7, 8, 9));
         Table subt = (Table) table.subtract(table1);
-        assertTrue(comp.equals(subt));
+        assertEquals(comp, subt);
     }
 
     @Test
