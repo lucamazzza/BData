@@ -20,7 +20,7 @@ public class Tuple implements Data {
 
     private static final String OINAT = "Object is not a tuple";
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
     /**
      * The values of the tuple
      *
@@ -287,7 +287,7 @@ public class Tuple implements Data {
             if (value instanceof Tuple && this.values[i].equals(value)) {
                 return i;
             }
-            if (value != null && this.values[i] != null && this.values[i].equals(value)) {
+            if (this.values[i] != null && this.values[i].equals(value)) {
                 return i;
             }
             if (this.values[i] == value) {
