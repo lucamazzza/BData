@@ -1,10 +1,9 @@
 package ch.mazluc;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -21,26 +20,7 @@ public class Tuple implements Data {
 
     private static final String OINAT = "Object is not a tuple";
 
-    /**
-     * Constant containing the types of values that the tuple can contain
-     * @since 1.0
-     */
-    private static final Class<?>[] TYPES = {
-            Boolean.class,
-            Byte.class,
-            Short.class,
-            Integer.class,
-            Long.class,
-            Float.class,
-            Double.class,
-            BigInteger.class,
-            BigDecimal.class,
-            Character.class,
-            String.class,
-            Object[].class,
-            Tuple.class,
-    };
-
+    private static Random random = new Random();
     /**
      * The values of the tuple
      *
@@ -85,73 +65,6 @@ public class Tuple implements Data {
     }
 
     /**
-     * Sorts the values of a determined type and returns a tuple containing them
-     * Type `Array`, `tuple.Tuple` and `Object` are not sorted
-     *
-     * @param values the tuple
-     * @param type   the type
-     * @return a tuple with the sorted Typed values
-     * @since 1.0
-     */
-    private static Tuple sortType(Object values, Class<?> type) {
-        if (!isTuple(values)) {
-            return new Tuple();
-        }
-        Tuple vals = (Tuple) values;
-        Tuple tuple = vals.getValuesOfType(type);
-        for (int i = 1; i < tuple.length(); i++) {
-            if (type == TYPES[0] && (boolean) tuple.getValue(i) && !(boolean) tuple.getValue(i - 1)) { // boolean
-                tuple.swap(i, i - 1);
-                i = 0;
-            } else if (
-                    (
-                        type == TYPES[1] ||
-                        type == TYPES[2] ||
-                        type == TYPES[3] ||
-                        type == TYPES[4] ||
-                        type == TYPES[5] ||
-                        type == TYPES[6]
-                    ) && (
-                        (type == TYPES[1] && (byte) tuple.getValue(i) < (byte) tuple.getValue(i - 1)) ||
-                        (type == TYPES[2] && (short) tuple.getValue(i) < (short) tuple.getValue(i - 1)) ||
-                        (type == TYPES[3] && (int) tuple.getValue(i) < (int) tuple.getValue(i - 1)) ||
-                        (type == TYPES[4] && (long) tuple.getValue(i) < (long) tuple.getValue(i - 1)) ||
-                        (type == TYPES[5] && (float) tuple.getValue(i) < (float) tuple.getValue(i - 1)) ||
-                        (type == TYPES[6] && (double) tuple.getValue(i) < (double) tuple.getValue(i - 1))
-                    )
-            ) { // Number
-                tuple.swap(i, i - 1);
-                i = 0;
-            } else if (
-                    (
-                    type == TYPES[7] ||
-                    type == TYPES[8]
-                    ) && (
-                    (
-                        type == TYPES[7] &&
-                        ((BigInteger) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0
-                    ) || (
-                        type == TYPES[8] &&
-                        ((BigDecimal) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0)
-                    )
-            ) { // BigNumber
-                    tuple.swap(i, i - 1);
-                    i = 0;
-            } else if (type == TYPES[9] && (char) tuple.getValue(i) < (char) tuple.getValue(i - 1)) { // Character
-                tuple.swap(i, i - 1);
-                i = 0;
-            } else if (
-                    type == TYPES[10] &&
-                            ((String) tuple.getValue(i)).compareTo(tuple.getValue(i - 1)) < 0
-            ) { // String
-                tuple.swap(i, i - 1);
-                i = 0;
-            }
-        }
-        return tuple;
-    }
-
-    /**
      * Returns the length of the tuple
      *
      * @return the length of the tuple
@@ -182,10 +95,11 @@ public class Tuple implements Data {
      */
     @Override
     public boolean equals(Object obj) {
-        if (!isTuple(obj)) {
+        if (obj != null && !isTuple(obj)) {
             return false;
         }
         Tuple tuple = (Tuple) obj;
+        assert tuple != null;
         if(this.values.length != tuple.values.length){
             return false;
         }
@@ -438,7 +352,6 @@ public class Tuple implements Data {
         for (int i = 0; i < this.values.length; i++) {
             if (this.values[i] == null) {
                 this.remove(i);
-                i--;
             }
         }
     }
@@ -469,68 +382,6 @@ public class Tuple implements Data {
             return 0;
         }
         return Arrays.hashCode(this.values);
-    }
-
-    /**
-     * Sorts the tuple, grouping by Type, in this order
-     *
-     * <p>Types:
-     * - boolean
-     * - byte
-     * - short
-     * - integer
-     * - long
-     * - float
-     * - double
-     * - BigInteger
-     * - BigDecimal
-     * - Character
-     * - String
-     * - tuple.Tuple
-     * - Object and Arrays
-     * - Null
-     * </p>
-     *
-     * @since 1.0
-     */
-    public void sort() {
-        if (this.values.length == 0) {
-            return;
-        }
-        Tuple tuple = new Tuple();
-        Tuple booleans = Tuple.sortType(this, TYPES[0]);
-        Tuple bytes = Tuple.sortType(this, TYPES[1]);
-        Tuple shorts = Tuple.sortType(this, TYPES[2]);
-        Tuple integers = Tuple.sortType(this, TYPES[3]);
-        Tuple longs = Tuple.sortType(this, TYPES[4]);
-        Tuple floats = Tuple.sortType(this, TYPES[5]);
-        Tuple doubles = Tuple.sortType(this, TYPES[6]);
-        Tuple bigIntegers = Tuple.sortType(this, TYPES[7]);
-        Tuple bigDecimals = Tuple.sortType(this, TYPES[8]);
-        Tuple characters = Tuple.sortType(this, TYPES[9]);
-        Tuple strings = Tuple.sortType(this, TYPES[10]);
-        Tuple tuples = Tuple.sortType(this, TYPES[11]);
-        Tuple objects = Tuple.sortType(this, TYPES[12]);
-        Tuple nulls = Tuple.sortType(this, null);
-        tuple.join(
-                booleans,
-                bytes,
-                shorts,
-                integers,
-                longs,
-                floats,
-                doubles,
-                bigIntegers,
-                bigDecimals,
-                characters,
-                strings,
-                tuples,
-                objects,
-                nulls);
-        this.clear();
-        for (Object value : tuple) {
-            this.push(value);
-        }
     }
 
     /**
@@ -639,7 +490,7 @@ public class Tuple implements Data {
             return;
         }
         for (int i = 0; i < amount; i++) {
-            this.values[i] = (int) (Math.random() * 100);
+            this.values[i] = random.nextInt(100);
         }
     }
 
@@ -659,7 +510,8 @@ public class Tuple implements Data {
             max = tmp;
         }
         for (int i = 0; i < amount; i++) {
-            this.values[i] = (int) (Math.random() * (max - min + 1) + min);
+
+            this.values[i] = random.nextInt(max - min + 1) + min;
         }
     }
 
