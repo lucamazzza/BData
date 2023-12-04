@@ -10,7 +10,7 @@ public class BCMLDocument<K> implements Document<K>{
     /**
      * The array of lines.
      */
-    private final List<Line<K>> lines;
+    private final transient List<Line<K>> lines;
 
     public BCMLDocument() {
         this.lines = new ArrayList<>();
@@ -18,7 +18,7 @@ public class BCMLDocument<K> implements Document<K>{
 
     public BCMLDocument(File file){
         this();
-        //this.deserialize(file);
+        this.deserialize(file);
     }
 
     /**
@@ -56,9 +56,10 @@ public class BCMLDocument<K> implements Document<K>{
      *
      * @param index the index
      * @return the line
+     * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     @Override
-    public Line<K> getLine(int index) {
+    public Line<K> getLine(int index) throws IndexOutOfBoundsException {
         if (this.isEmpty()) { throw new IndexOutOfBoundsException("Index " + index + " out of bounds for length 0"); }
         return this.lines.get(index);
     }
@@ -91,26 +92,16 @@ public class BCMLDocument<K> implements Document<K>{
         }
     }
 
-//    private void deserialize(File file) {
-//        BufferedReader reader = null;
-//        try {
-//            reader = new BufferedReader(new java.io.FileReader(file));
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                this.append(new Line<K>(line));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (reader != null) {
-//                try {
-//                    reader.close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+    private void deserialize(File file) {
+        try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                this.append(Line.parseLine(line));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Returns an iterator over elements of type {@code T}.

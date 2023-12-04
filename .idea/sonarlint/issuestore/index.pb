@@ -13,3 +13,11 @@ S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
 ]
 -.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
+U
+%src/main/java/ch/mazluc/Document.java,9/0/90a8657460a5659875273732fe34e802c1653eb6
+Q
+!src/main/java/ch/mazluc/Line.java,b/2/b258b6a8cc6455b1657524519494310792214207
+V
+&src/test/java/ch/mazluc/TableTest.java,d/a/da23e12da5a2702c90fad265208b9a4822576088
+W
+'src/main/java/ch/mazluc/StringTool.java,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82
