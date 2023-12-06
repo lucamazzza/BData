@@ -11,6 +11,16 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+/**
+ * Represents a document of type BCML.
+ * A document is made of lines.
+ * A line is made of a key and a value.
+ *
+ * @param <K> key type
+ * @author Luca Mazza
+ * @version 1.0
+ * @since 1.0
+ */
 public class BCMLDocument<K> implements Document<K>{
 
     /**
@@ -79,6 +89,9 @@ public class BCMLDocument<K> implements Document<K>{
      */
     @Override
     public void append(Line<K> line) {
+        if (line.keyType() != this.keyType()) {
+            throw new IllegalArgumentException("Key type must be " + this.keyType());
+        }
         this.lines.add(line);
     }
 
@@ -90,6 +103,17 @@ public class BCMLDocument<K> implements Document<K>{
         this.lines.clear();
     }
 
+    private void toBCML(String doc) {
+        for (String line : doc.split("\n")) {
+            this.append(Line.parseLine(line));
+        }
+    }
+
+    /**
+     * Serializes the document to the given file.
+     *
+     * @param  file  the file to be serialized in
+     */
     public void serialize(File file) {
         try (BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(file))) {
             for (Line<K> line : this) {
@@ -102,17 +126,38 @@ public class BCMLDocument<K> implements Document<K>{
         }
     }
 
+    /**
+     * Deserializes the document in the given file.
+     *
+     * @param  file  the file in which the document is contained
+     */
     private void deserialize(File file) {
         try(BufferedReader reader = new BufferedReader(new java.io.FileReader(file))) {
+            if (reader.lines().findAny().isEmpty()) {
+                logger.log(
+                        new LogRecord(
+                                Level.WARNING,
+                                "Document is empty, can't deserialize from " + file.getAbsolutePath()
+                        )
+                );
+                return;
+            }
+            StringBuilder doc = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                this.append(Line.parseLine(line));
-
+                line = line.trim();
+                if (line.isEmpty() || line.charAt(0) == '#') { continue; }
+                doc.append(line).append("\n");
             }
+            doc = new StringBuilder(doc.toString().replace("(?<=\\{)\\n|\\t|(?=\\})\\n\\t", ""));
+            doc = new StringBuilder(doc.toString().trim());
+            this.lines.clear();
+            this.toBCML(doc.toString());
             logger.log(new LogRecord(Level.INFO, "Document deserialized from " + file.getAbsolutePath()));
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }
+
     }
 
     /**
