@@ -3,7 +3,13 @@ package ch.mazluc;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public class BCMLDocument<K> implements Document<K>{
 
@@ -11,6 +17,8 @@ public class BCMLDocument<K> implements Document<K>{
      * The array of lines.
      */
     private final transient List<Line<K>> lines;
+
+    private static final Logger logger = Logger.getLogger(BCMLDocument.class.getName());
 
     public BCMLDocument() {
         this.lines = new ArrayList<>();
@@ -87,8 +95,10 @@ public class BCMLDocument<K> implements Document<K>{
             for (Line<K> line : this) {
                 writer.append(line.toString());
             }
+            writer.flush();
+            logger.log(new LogRecord(Level.INFO, "Document serialized to " + file.getAbsolutePath()));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warning(e.getMessage());
         }
     }
 
@@ -97,9 +107,11 @@ public class BCMLDocument<K> implements Document<K>{
             String line;
             while ((line = reader.readLine()) != null) {
                 this.append(Line.parseLine(line));
+
             }
+            logger.log(new LogRecord(Level.INFO, "Document deserialized from " + file.getAbsolutePath()));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warning(e.getMessage());
         }
     }
 
