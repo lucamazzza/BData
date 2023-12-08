@@ -25,9 +25,11 @@ Table table2 = new Table(tuple1, tuple2);
 
 * **`Data`**: an interface representing Tuples and Tables.
 ``` java
+Data table3 = new Table(tuple1, tuple2);
+Data tuple4 = new Tuple(200, "OK");
 List<Data> datas = new ArrayList<Data>();
-datas.add(table1); // Works
-datas.add(tuple2); // Works
+datas.add(table3); // Works
+datas.add(tuple4); // Works
 ```
 
 > Many more features are to come, be patient. If you have an enquiry, an idea, or you just want to help me out please submit via issue. 
