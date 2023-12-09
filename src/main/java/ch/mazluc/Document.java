@@ -1,6 +1,7 @@
 package ch.mazluc;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 /**
  * Interface for Document.
@@ -27,12 +28,6 @@ public interface Document<K> extends Iterable<Line<K>>, Serializable {
      */
     boolean isEmpty();
 
-    /**
-     * Returns the key type of the Document.
-     *
-     * @return the key type
-     */
-    Class<?> keyType();
 
     /**
      * Retrieves the line at the specified index.

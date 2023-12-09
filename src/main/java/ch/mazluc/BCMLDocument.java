@@ -3,6 +3,8 @@ package ch.mazluc;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,16 +62,6 @@ public class BCMLDocument<K> implements Document<K>{
     }
 
     /**
-     * Returns the key type of the Document.
-     *
-     * @return the key type
-     */
-    @Override
-    public Class<?> keyType() {
-        return (this.lineCount() != 0 ? lines.get(0).keyType() : null);
-    }
-
-    /**
      * Retrieves the line at the specified index.
      *
      * @param index the index
@@ -89,9 +81,6 @@ public class BCMLDocument<K> implements Document<K>{
      */
     @Override
     public void append(Line<K> line) {
-        if (line.keyType() != this.keyType()) {
-            throw new IllegalArgumentException("Key type must be " + this.keyType());
-        }
         this.lines.add(line);
     }
 
