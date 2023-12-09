@@ -3,8 +3,6 @@ package ch.mazluc;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -138,15 +136,10 @@ public class BCMLDocument<K> implements Document<K>{
                 if (line.isEmpty() || line.charAt(0) == '#') { continue; }
                 doc.append(line).append("\n");
             }
-            doc = new StringBuilder(doc.toString().replace("(?<=\\{)\\n|\\t|(?=\\})\\n\\t", ""));
-            doc = new StringBuilder(doc.toString().trim());
-            this.lines.clear();
-            this.toBCML(doc.toString());
             logger.log(new LogRecord(Level.INFO, "Document deserialized from " + file.getAbsolutePath()));
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }
-
     }
 
     /**
