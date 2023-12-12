@@ -23,3 +23,11 @@ W
 'src/main/java/ch/mazluc/StringTool.java,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
+]
+-src/test/java/ch/mazluc/BCMLDocumentTest.java,b/0/b073854253e8935f3fbc9269992103ae2e046bae
+G
+.idea/modules/BData.iml,f/1/f102aa3afec92ae50f45bf7d528aea5a0ad725ce
+L
+.idea/modules/BData.main.iml,c/b/cb567570a6ae71af363d7384d5f3ff6a71cedd1b
+L
+.idea/modules/BData.test.iml,2/3/236cbafef934f95d623523fe042467138643c549
