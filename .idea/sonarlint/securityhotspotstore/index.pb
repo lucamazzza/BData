@@ -31,3 +31,7 @@ L
 .idea/modules/BData.main.iml,c/b/cb567570a6ae71af363d7384d5f3ff6a71cedd1b
 L
 .idea/modules/BData.test.iml,2/3/236cbafef934f95d623523fe042467138643c549
+[
++src/test/java/ch/mazluc/data/TableTest.java,1/7/17a81e2ff94045fed7082501cad242140d257751
+b
+2src/test/java/ch/mazluc/data/BCMLDocumentTest.java,f/1/f1c8deab0fc1df5dab35269274240e84109ea881
