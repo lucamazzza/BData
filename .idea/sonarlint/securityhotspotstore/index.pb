@@ -35,3 +35,5 @@ L
 +src/test/java/ch/mazluc/data/TableTest.java,1/7/17a81e2ff94045fed7082501cad242140d257751
 b
 2src/test/java/ch/mazluc/data/BCMLDocumentTest.java,f/1/f1c8deab0fc1df5dab35269274240e84109ea881
+^
+.src/main/java/ch/mazluc/data/BCMLDocument.java,6/2/6244087d6a910ffd4b269936ba76f65df2dd9c80
