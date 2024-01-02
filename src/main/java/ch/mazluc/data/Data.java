@@ -30,15 +30,6 @@ import java.util.function.Predicate;
  * It is an extension of the {@link Iterable} interface.
  *
  * <p>
- * Usage:
- *
- * <pre>
- * {@code
- * 
- * }
- * </pre>
- *
- * <p>
  * See Repo for more: <a href="https://github.com/lucamazzza/BData">GitHub</a>
  *
  * @author Luca Mazza
