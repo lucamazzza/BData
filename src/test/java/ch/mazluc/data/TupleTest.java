@@ -1,6 +1,4 @@
 package ch.mazluc.data;
-import ch.mazluc.data.Data;
-import ch.mazluc.data.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
