@@ -1,13 +1,48 @@
-package ch.mazluc;
+package ch.mazluc.data;
 
 import java.util.function.Predicate;
-
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023 Luca Mazza
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 /**
- * This interface represents a collection of values
+ * <p>
+ * Represents a data structure.
+ * A data structure is a collection of values.
+ * It is an extension of the {@link Iterable} interface.
+ *
+ * <p>
+ * Usage:
+ *
+ * <pre>
+ * {@code
+ * 
+ * }
+ * </pre>
+ *
+ * <p>
+ * See Repo for more: <a href="https://github.com/lucamazzza/BData">GitHub</a>
  *
  * @author Luca Mazza
  * @version 1.0
- * @since 1.0
  */
 public interface Data extends Iterable<Object> {
 
@@ -30,17 +65,17 @@ public interface Data extends Iterable<Object> {
      *
      * @param value the value to be checked if it is contained in the function
      * @return true if the value is contained in the function, otherwise false
-     * @param <Any> the type
+     * @param <T> the type
      */
-    <Any>boolean contains(Any value);
+    <T>boolean contains(T value);
 
     /**
      * Pushes a value onto the collection.
      *
      * @param value the value to be pushed onto the stack
-     * @param <Any> the type
+     * @param <T> the type
      */
-    <Any> void push(Any value);
+    <T> void push(T value);
 
     /**
      * Swaps the elements at the specified indices in the array.
