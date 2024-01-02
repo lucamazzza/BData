@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="44deddc3-c334-4e96-b05f-9c3051965f5d" name="Changes" comment="Chore: Comment Cleanup and Code BugFix" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="document" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2YPhqNdCKvmEjVOyjm6NWuZvnCr" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.BCMLDocumentTest.executor": "Run",
+    "Gradle.BCMLDocumentTest.getLine.executor": "Run",
+    "Gradle.BCMLDocumentTest.isEmpty.executor": "Run",
+    "Gradle.BCMLDocumentTest.keyType.executor": "Run",
+    "Gradle.BCMLDocumentTest.lineCount.executor": "Run",
+    "Gradle.TableTest.executor": "Run",
+    "Gradle.TupleTest.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "dart.analysis.tool.window.visible": "false",
+    "java.suggest.annotation.dependency": "false",
+    "last_opened_file_path": "/Users/lucamazza/Library/Mobile Documents/com~apple~CloudDocs/Work/23/Projects/BData/src/test/java/ch/mazluc",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/Users/lucamazza/Library/Mobile Documents/com~apple~CloudDocs/Work/23/Projects/BData/src/main/java/ch/mazluc/Main.java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.customizations",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/ch/mazluc" />
+      <recent name="$PROJECT_DIR$/src/main/java/ch/mazluc" />
+      <recent name="$USER_HOME$/Desktop" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="ch.mazluc" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle build" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.BCMLDocumentTest.getLine">
+    <configuration name="BCMLDocumentTest.getLine" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ch.mazluc.BCMLDocumentTest.getLine&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="BCMLDocumentTest.isEmpty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ch.mazluc.BCMLDocumentTest.isEmpty&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="BCMLDocumentTest.keyType" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ch.mazluc.BCMLDocumentTest.keyType&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="BCMLDocumentTest.lineCount" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ch.mazluc.BCMLDocumentTest.lineCount&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TableTest.isDisjoint" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;ch.mazluc.TableTest.isDisjoint&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.BCMLDocumentTest.getLine" />
+        <item itemvalue="Gradle.BCMLDocumentTest.keyType" />
+        <item itemvalue="Gradle.BCMLDocumentTest.isEmpty" />
+        <item itemvalue="Gradle.BCMLDocumentTest.lineCount" />
+        <item itemvalue="Gradle.TableTest.isDisjoint" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-203781b8" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="44deddc3-c334-4e96-b05f-9c3051965f5d" name="Changes" comment="" />
+      <created>1700433314737</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700433314737</updated>
+      <workItem from="1700433315793" duration="6232000" />
+      <workItem from="1700469392866" duration="20758000" />
+      <workItem from="1700490376378" duration="100000" />
+      <workItem from="1700490482886" duration="2139000" />
+      <workItem from="1700498592839" duration="9632000" />
+      <workItem from="1700668052774" duration="21000" />
+      <workItem from="1700668262932" duration="4622000" />
+      <workItem from="1700674316359" duration="10615000" />
+      <workItem from="1700996555367" duration="7918000" />
+      <workItem from="1701273958493" duration="941000" />
+      <workItem from="1701274916097" duration="13154000" />
+      <workItem from="1701356134462" duration="2717000" />
+      <workItem from="1701377259874" duration="32000" />
+      <workItem from="1701674472857" duration="23261000" />
+      <workItem from="1701878125714" duration="247000" />
+      <workItem from="1701878393638" duration="129000" />
+      <workItem from="1701878534707" duration="640000" />
+      <workItem from="1702106871334" duration="9947000" />
+      <workItem from="1702223685824" duration="48000" />
+      <workItem from="1702223744867" duration="149000" />
+      <workItem from="1702398752896" duration="1160000" />
+      <workItem from="1702668360838" duration="2859000" />
+      <workItem from="1702712210099" duration="1026000" />
+      <workItem from="1702713251186" duration="3937000" />
+      <workItem from="1702823925158" duration="1909000" />
+      <workItem from="1702886847195" duration="747000" />
+      <workItem from="1702914970416" duration="7000" />
+      <workItem from="1702969136390" duration="770000" />
+      <workItem from="1703078561575" duration="14000" />
+      <workItem from="1703190137369" duration="87000" />
+      <workItem from="1703262743301" duration="45000" />
+      <workItem from="1703262796344" duration="29000" />
+      <workItem from="1704218297960" duration="1405000" />
+      <workItem from="1704219832494" duration="329000" />
+    </task>
+    <task id="LOCAL-00001" summary="Chore: Cleanup">
+      <option name="closed" value="true" />
+      <created>1700467929691</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700467929691</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Gradle Publish">
+      <option name="closed" value="true" />
+      <created>1700483200461</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700483200461</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Feature (#19): `Line`, `Document` &amp; `BCMLDocument`&#10;Problem&#10;* I want to develop a document manager, YAML-like&#10;&#10;Solution&#10;* Implemented the record `Line`, which represents a variable inside the document&#10;* Implemented the interface `Document` which is an abstraction of a generic document&#10;* Implemented the Data type `BCMLDocument` which represents the document of type BCML&#10;&#10;Notes&#10;Still WIP">
+      <option name="closed" value="true" />
+      <created>1701291517678</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701291517678</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Feature (#19): Serialization and Deserialization&#10;&#10;Problem&#10;Wanted to serialize, deserialize and represent in blocks BCMLDocuments&#10;&#10;Solution&#10;* Added the methods `serialize(f)` and `deserialite(f)`&#10;* Added `StringTool` that provides String conversion, ecc.. &#10;* Added `toString()` and `parseLine(s)` to Line, which respectively convert to and from `String` a `Line`.&#10;&#10;Notes&#10;Still WIP">
+      <option name="closed" value="true" />
+      <created>1701714309385</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701714309385</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Feature (#22): Serialization and Deserialization&#10;&#10;Problem&#10;Wanted to serialize, deserialize and represent in blocks BCMLDocuments&#10;&#10;Solution&#10;* refactored the methods `serialize(f)` and `deserialize(f)`, see code.&#10;* added method `toBCML(s)`&#10;&#10;&#10;Notes&#10;Still WIP">
+      <option name="closed" value="true" />
+      <created>1701878854837</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701878854837</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Test (#22): BCMLDocument">
+      <option name="closed" value="true" />
+      <created>1702150633746</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1702150633746</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Chore: License&#10;Added license header to each source file.">
+      <option name="closed" value="true" />
+      <created>1702399913552</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1702399913552</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Chore: License&#10;Added license header to each source file.">
+      <option name="closed" value="true" />
+      <created>1702712651180</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1702712651181</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Chore: License&#10;Added license header to each source file.">
+      <option name="closed" value="true" />
+      <created>1702713128745</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702713128745</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Chore: License&#10;Added license header to each source file.">
+      <option name="closed" value="true" />
+      <created>1702713159413</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1702713159413</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Chore: Git Fix">
+      <option name="closed" value="true" />
+      <created>1702713474636</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1702713474636</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Chore: Cleanup">
+      <option name="closed" value="true" />
+      <created>1704218706177</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1704218706177</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Chore: GitIgnore">
+      <option name="closed" value="true" />
+      <created>1704219221792</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1704219221792</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Chore: Comment Cleanup and Code BugFix">
+      <option name="closed" value="true" />
+      <created>1704219687107</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1704219687107</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Chore: Comment Cleanup and Code BugFix">
+      <option name="closed" value="true" />
+      <created>1704219697432</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1704219697432</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Chore: Comment Cleanup and Code BugFix">
+      <option name="closed" value="true" />
+      <created>1704220058736</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1704220058736</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Gradle Publish" />
+    <MESSAGE value="Feature (#19): `Line`, `Document` &amp; `BCMLDocument`&#10;Problem&#10;* I want to develop a document manager, YAML-like&#10;&#10;Solution&#10;* Implemented the record `Line`, which represents a variable inside the document&#10;* Implemented the interface `Document` which is an abstraction of a generic document&#10;* Implemented the Data type `BCMLDocument` which represents the document of type BCML&#10;&#10;Notes&#10;Still WIP" />
+    <MESSAGE value="Feature (#19): Serialization and Deserialization&#10;&#10;Problem&#10;Wanted to serialize, deserialize and represent in blocks BCMLDocuments&#10;&#10;Solution&#10;* Added the methods `serialize(f)` and `deserialite(f)`&#10;* Added `StringTool` that provides String conversion, ecc.. &#10;* Added `toString()` and `parseLine(s)` to Line, which respectively convert to and from `String` a `Line`.&#10;&#10;Notes&#10;Still WIP" />
+    <MESSAGE value="Feature (#22): Serialization and Deserialization&#10;&#10;Problem&#10;Wanted to serialize, deserialize and represent in blocks BCMLDocuments&#10;&#10;Solution&#10;* refactored the methods `serialize(f)` and `deserialize(f)`, see code.&#10;* added method `toBCML(s)`&#10;&#10;&#10;Notes&#10;Still WIP" />
+    <MESSAGE value="Test (#22): BCMLDocument" />
+    <MESSAGE value="Chore: License&#10;Added license header to each source file." />
+    <MESSAGE value="Chore: Git Fix" />
+    <MESSAGE value="Chore: Cleanup" />
+    <MESSAGE value="Chore: GitIgnore" />
+    <MESSAGE value="Chore: Comment Cleanup" />
+    <MESSAGE value="Chore: Comment Cleanup and Code BugFix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chore: Comment Cleanup and Code BugFix" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

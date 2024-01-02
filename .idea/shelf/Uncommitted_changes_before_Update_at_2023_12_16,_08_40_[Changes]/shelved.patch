@@ -1,0 +1,214 @@
+Index: src/main/java/ch/mazluc/Tuple.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n * MIT License\n *\n * Copyright (c) 2023 Luca Mazza\n * Permission is hereby granted, free of charge, to any person obtaining a copy\n * of this software and associated documentation files (the \"Software\"), to deal\n * in the Software without restriction, including without limitation the rights\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n * copies of the Software, and to permit persons to whom the Software is\n * furnished to do so, subject to the following conditions:\n *\n * The above copyright notice and this permission notice shall be included in all\n * copies or substantial portions of the Software.\n *\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n * SOFTWARE.\n */\npackage ch.mazluc;\n\nimport java.util.Arrays;\nimport java.util.Iterator;\nimport java.util.NoSuchElementException;\nimport java.util.Random;\nimport java.util.function.Predicate;\nimport java.util.stream.IntStream;\n\nimport static java.lang.System.arraycopy;\n\n/**\n * This class represents a tuple of values\n *\n * @author Luca Mazza\n * @version 1.0\n * @since 1.0\n */\npublic class Tuple implements Data {\n\n    private static final String OINAT = \"Object is not a tuple\";\n\n    private static final Random random = new Random();\n    /**\n     * The values of the tuple\n     *\n     * @since 1.0\n     */\n    private Object[] values;\n\n    /**\n     * Creates a new instance of tuple.Tuple\n     *\n     * @since 1.0\n     */\n    public Tuple() {\n        this.values = new Object[0];\n    }\n\n    /**\n     * Creates a new instance of tuple.Tuple\n     * Defines the values of the tuple\n     *\n     * @param values the values of the tuple\n     * @since 1.0\n     */\n    public Tuple(Object... values) {\n        if (values.length == 0) {\n            this.values = new Object[0];\n            return;\n        }\n        this.values = new Object[values.length];\n        arraycopy(values, 0, this.values, 0, values.length);\n        this.clearNulls();\n    }\n\n    /**\n     * Determines if the given object is an instance of Tuple.\n     *\n     * @param obj the object to be checked\n     * @return  true if the object is an instance of Tuple, false otherwise\n     */\n    static boolean isTuple(Object obj) {\n        return obj.getClass() == Tuple.class;\n    }\n\n    /**\n     * Returns the length of the tuple\n     *\n     * @return the length of the tuple\n     * @since 1.0\n     */\n    @Override\n    public int length() {\n        return this.values.length;\n    }\n\n    /**\n     * Returns if the tuple is empty\n     *\n     * @return if the tuple is empty\n     * @since 1.0\n     */\n    @Override\n    public boolean isEmpty(){\n        return this.values.length == 0;\n    }\n\n    /**\n     * Returns if the tuple is equal to another\n     *\n     * @param obj the tuple to compare\n     * @return if the tuple is equal to another\n     * @since 1.0\n     */\n    @Override\n    public boolean equals(Object obj) {\n        if (obj != null && !isTuple(obj)) {\n            return false;\n        }\n        Tuple tuple = (Tuple) obj;\n        assert tuple != null;\n        if(this.values.length != tuple.values.length){\n            return false;\n        }\n        for (int i = 0; i < this.values.length; i++) {\n            if (this.values[i] != tuple.values[i]){\n                return false;\n            }\n        }\n        return true;\n    }\n\n    /**\n     * Determines whether the given value is contained within the collection.\n     *\n     * @param value the value to check for containment\n     * @return true if the value is contained, false otherwise\n     * @since 1.0\n     */\n    @Override\n    public <T> boolean contains(T value) {\n        return this.indexOf(value) != -1;\n    }\n\n    /**\n     * Returns if the tuple contains a value of the specified type\n     *\n     * @param type the type of the value\n     * @return if the tuple contains a value of the specified type\n     * @since 1.0\n     */\n    public boolean containsType(Class<?> type) {\n        for (Object value : this.values) {\n            if (value == null) {\n                return false;\n            }\n            if (value.getClass() == type) {\n                return true;\n            }\n        }\n        return false;\n    }\n\n    /**\n     * Replaces the values of the tuple\n     *\n     * @param values the new values of the tuple\n     * @since 1.0\n     */\n    public void setValues(Object... values){\n        if (values.length == 0) {\n            this.values = new Object[0];\n            return;\n        }\n        this.values = values;\n        this.clearNulls();\n    }\n\n    /**\n     * Appends a value of T type to the tuple\n     *\n     * @param <T> value the value to append\n     * @since 1.0\n     */\n    @Override\n    public <T> void push(T value) {\n        if (value == null) {\n            return;\n        }\n        Object[] newValues = new Object[this.values.length + 1];\n        arraycopy(this.values, 0, newValues, 0, this.values.length);\n        newValues[this.values.length] = value;\n        this.values = newValues;\n        this.clearNulls();\n    }\n\n    /**\n     * Inserts a new value at the specified index\n     *\n     * @param index index to insert the value into\n     * @param value value to insert\n     * @since 1.0\n     */\n    public <T> void insert(int index, T value) throws IndexOutOfBoundsException {\n        if (value == null) {\n            return;\n        }\n        Object[] newValues = new Object[this.values.length + 1];\n        arraycopy(this.values, 0, newValues, 0, index);\n        newValues[index] = value;\n        arraycopy(this.values, index, newValues, index + 1, this.values.length - index);\n        this.values = newValues;\n        this.clearNulls();\n    }\n\n    /**\n     * Replaces the value at the specified index\n     *\n     * @param index the index of the value\n     * @param value the new value\n     * @since 1.0\n     */\n    public <T> void replace(int index, T value) throws IndexOutOfBoundsException {\n        if (value == null) {\n            return;\n        }\n        if (index < 0 || index >= this.values.length) {\n            throw new IndexOutOfBoundsException(\"Index \" + index + \" out of bounds for length \" + this.values.length);\n        }\n        this.values[index] = value;\n        this.clearNulls();\n    }\n\n    /**\n     * Swaps the elements at the specified indices in the array.\n     *\n     * @param index1 the index of the first element to be swapped\n     * @param index2 the index of the second element to be swapped\n     * @since 1.0\n     */\n    @Override\n    public void swap(int index1, int index2) throws IndexOutOfBoundsException {\n        if (index1 < 0 || index2 < 0 || index1 >= this.values.length || index2 >= this.values.length) {\n            throw new IndexOutOfBoundsException(\"Index out of bounds for length \" + this.values.length);\n        }\n        Object temp = this.values[index1];\n        this.values[index1] = this.values[index2];\n        this.values[index2] = temp;\n    }\n\n    /**\n     * Returns the value at the specified index of the tuple\n     * Value is already typed, but be careful, put your values\n     * in a rightful type variable\n     *\n     * @param index the index of the value\n     * @return the value at the specified index\n     * @since 1.0\n     */\n    @SuppressWarnings(\"unchecked\")\n    public <T> T getValue(int index) throws IndexOutOfBoundsException {\n        if (index < 0 || index >= this.values.length) {\n            throw new IndexOutOfBoundsException(\"Index \" + index + \" out of bounds for length \" + this.values.length);\n        }\n        return (T) this.values[index];\n    }\n\n    /**\n     * Returns a new tuple with only the values of the specified type\n     *\n     * @param type the type of the values (to pass as `Class.class`, for example `Integer.class`)\n     * @return a new tuple with only the values of the specified type\n     * @since 1.0\n     */\n    public Tuple getValuesOfType(Class<?> type) {\n        Tuple tuple = new Tuple();\n        if (!containsType(type)) {\n            return tuple;\n        }\n        Tuple copy = new Tuple(this.values); // Create a copy of the original tuple\n        for (int i = 0; i < copy.length(); i++) {\n            if (copy.getValue(i) == null) {\n                copy.remove(i);\n            }\n        }\n        for (Object value : copy) {\n            if (value.getClass() == type) {\n                tuple.push(value);\n            }\n        }\n        return tuple;\n    }\n\n    /**\n     * Returns the index of a specified value\n     *\n     * @param value the value to search\n     * @return the index of the value\n     * @since 1.0\n     */\n    public <T> int indexOf(T value) {\n        for (int i = 0; i < this.values.length; i++) {\n            if (value instanceof String && this.values[i].equals(value.toString())) {\n                return i;\n            }\n            if (value instanceof Tuple && this.values[i].equals(value)) {\n                return i;\n            }\n            if (this.values[i] != null && this.values[i].equals(value)) {\n                return i;\n            }\n            if (this.values[i] == value) {\n                return i;\n            }\n        }\n        return -1;\n    }\n\n    /**\n     * Removes the last value of the tuple\n     */\n    @Override\n    public void pop() {\n        if (this.values.length == 0) {\n            return;\n        }\n        Object[] newValues = new Object[this.values.length - 1];\n        arraycopy(this.values, 0, newValues, 0, this.values.length - 1);\n        this.values = newValues;\n        this.clearNulls();\n    }\n\n    /**\n     * Removes the element at the specified index from the array of values.\n     *\n     * @param index the index of the element to be removed\n     * @since 1.0\n     */\n    public void remove(int index) throws IndexOutOfBoundsException {\n        if (this.values.length == 0) {\n            return;\n        }\n        if (index < 0 || index >= this.values.length) {\n            throw new IndexOutOfBoundsException();\n        }\n        Object[] newValues = new Object[this.values.length - 1];\n        arraycopy(this.values, 0, newValues, 0, index);\n        if (this.values.length - 1 - index >= 0)\n            arraycopy(this.values, index + 1, newValues, index, this.values.length - 1 - index);\n        this.values = newValues;\n        this.clearNulls();\n    }\n\n    /**\n     * Clears the tuple, making it of length 0\n     *\n     * @since 1.0\n     */\n    @Override\n    public void clear() {\n        this.values = new Object[0];\n    }\n\n    /**\n     * Clears T null values from the array.\n     */\n    private void clearNulls() {\n        if (this.values.length == 0) {\n            return;\n        }\n        for (int i = 0; i < this.values.length; i++) {\n            if (this.values[i] == null) {\n                this.remove(i);\n            }\n        }\n    }\n\n    /**\n     * Returns the string representation of the tuple\n     *\n     * @return the string representation of the tuple\n     * @since 1.0\n     */\n    @Override\n    public String toString() {\n        if (this.values.length == 0) {\n            return \"[]\";\n        }\n        return Arrays.toString(this.values);\n    }\n\n    /**\n     * Returns the hash code of the tuple\n     *\n     * @return the hash code of the tuple\n     * @since 1.0\n     */\n    @Override\n    public int hashCode() {\n        if (this.values.length == 0) {\n            return 0;\n        }\n        return Arrays.hashCode(this.values);\n    }\n\n    /**\n     * Reverses the tuple\n     *\n     * @since 1.0\n     */\n    public void reverse() {\n        if (this.values.length == 0 || this.values.length == 1) {\n            return;\n        }\n        Object[] newValues = new Object[this.values.length];\n        for (int i = 0; i < this.values.length; i++) {\n            newValues[i] = this.values[this.values.length - i - 1];\n        }\n        this.setValues(newValues);\n    }\n\n    /**\n     * Slices the tuple from a defined start to a defined end\n     *\n     * @param start the first index\n     * @param end   the last index\n     * @since 1.0\n     */\n    @Override\n    public void slice(int start, int end) {\n        if (end > this.values.length) {\n            end = this.values.length;\n        }\n        if (start < 0) {\n            start = 0;\n        }\n        Object[] newValues = new Object[end - start];\n        arraycopy(this.values, start, newValues, 0, newValues.length);\n        this.setValues(newValues);\n    }\n\n    /**\n     * Splits the tuple at the specified index\n     * The new tuple has the same length as the old one\n     *\n     * @param index the index to split\n     * @param data the new tuple\n     * @since 1.0\n     */\n    public void split(int index, Object data) throws IllegalArgumentException {\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (index > this.values.length) {\n            index = this.values.length;\n        }\n        if (index < 0) {\n            index = 0;\n        }\n        Tuple tmp = (Tuple) data;\n        Object[] newValues = new Object[index];\n        Object[] newValues2 = new Object[this.values.length - index];\n        arraycopy(this.values, index, newValues2, 0, this.values.length - index);\n        tmp.setValues(newValues2);\n        arraycopy(this.values, 0, newValues, 0, index);\n        this.setValues(newValues);\n    }\n\n    /**\n     * Joins two tuples into one\n     *\n     * @param datas the tuples to join\n     * @since 1.0\n     */\n    @Override\n    public void join(Object... datas) {\n        for (Object data : datas) {\n            if (!isTuple(data)) {\n                continue;\n            }\n            Tuple tmp = (Tuple) data;\n            for (int i = 0; i < tmp.length(); i++) {\n                this.push(tmp.getValue(i));\n            }\n        }\n    }\n\n    /**\n     * Fills the array with the specified value.\n     *\n     * @param value the value to fill the array with\n     */\n    public <T> void fill(T value, int amount) {\n        if (amount < 0) { amount = 0; }\n        if (amount == 0 || value == null) { return; }\n        for (int i = 0; i < amount; i++) {\n            this.push(value);\n        }\n    }\n\n    /**\n     * Fills the array with random values.\n     *\n     * @param amount the amount of random values to generate\n     */\n    public void fillRandom(int amount) {\n        if (amount < 0 || amount > this.values.length) {\n            amount = 0;\n        }\n        if (amount == 0) {\n            return;\n        }\n        for (int i = 0; i < amount; i++) {\n            this.values[i] = random.nextInt(100);\n        }\n    }\n\n    /**\n     * Fills the values array with random integers between 0 and 99 (inclusive).\n     */\n    public void fillRandom(int min, int max, int amount) {\n        if (amount < 0 || amount > this.values.length) {\n            amount = 0;\n        }\n        if (amount == 0) {\n            return;\n        }\n        if (min > max) {\n            int tmp = min;\n            min = max;\n            max = tmp;\n        }\n        for (int i = 0; i < amount; i++) {\n\n            this.values[i] = random.nextInt(max - min + 1) + min;\n        }\n    }\n\n    /**\n     * Determines if this tuple is a subset of the given tuple.\n     *\n     * @param data the tuple to check against\n     * @return true if this tuple is a subset of the given tuple, false otherwise\n     */\n    @Override\n    public boolean isSubsetOf(Object data) throws IllegalArgumentException{\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (this.length() > ((Tuple) data).length()) {\n            return false;\n        }\n        Tuple tmp = (Tuple) data;\n        for (int i = 0; i < this.length(); i++) {\n            if (!tmp.contains(this.getValue(i))) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    /**\n     * Determines if this tuple is a superset of the given tuple.\n     *\n     * @param data the tuple to check against\n     * @return true if this tuple is a superset of the given tuple, false otherwise\n     */\n    @Override\n    public boolean isSupersetOf(Object data) throws IllegalArgumentException {\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (this.length() < ((Tuple) data).length()) {\n            return false;\n        }\n        Tuple tmp = (Tuple) data;\n        return tmp.isSubsetOf(this);\n    }\n\n    /**\n     * Determines if this set is a strict superset of the given tuple.\n     * A strict superset means that this set contains all the values\n     * of the given tuple in the same order\n     *\n     * @param data the tuple to compare against\n     * @return true if this set is a strict superset of the given tuple, false otherwise\n     */\n    public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (this.length() < ((Tuple) data).length()) {\n            return false;\n        }\n        int consecutive = 0;\n        Tuple tmp = (Tuple) data;\n        for (int i = 0; i < tmp.length(); i++) {\n            if (this.contains(tmp.getValue(i))) {\n                consecutive++;\n            } else {\n                consecutive = 0;\n            }\n        }\n        return consecutive == tmp.length();\n    }\n\n    /**\n     * Determines if this set is a strict subset of the given tuple.\n     * A strict subset means that this set contains all the values\n     * of the given tuple in the same order\n     *\n     * @param data the tuple to compare against\n     * @return true if this set is a strict subset of the given tuple, false otherwise\n     */\n    public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (this.length() > ((Tuple) data).length()) {\n            return false;\n        }\n        Tuple tmp = (Tuple) data;\n        int consecutive = 0;\n        for (int i = 0; i < this.length(); i++) {\n            if (tmp.contains(this.getValue(i))){\n                consecutive++;\n            } else {\n                consecutive = 0;\n            }\n        }\n        return consecutive == this.length();\n    }\n\n    /**\n     * Checks if the current tuple.Tuple is disjoint with the given tuple.Tuple.\n     *\n     * @param data the tuple.Tuple to check for disjointness\n     * @return true if the Tuples are disjoint, false otherwise\n     */\n    @Override\n    public boolean isDisjoint(Object data) throws IllegalArgumentException{\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        if (data.equals(this)) {\n            return false;\n        }\n        Tuple tmp = (Tuple) data;\n        for (int i = 0; i < tmp.length(); i++) {\n            if (this.contains(tmp.getValue(i))){\n                return false;\n            }\n        }\n        return true;\n    }\n\n    /**\n     * Returns the symmetric difference between this tuple and the given tuple\n     * The symmetric difference is the set of values that are in either tuple\n     * but not in both\n     *\n     * @param data the tuple\n     * @return the symmetric difference\n     */\n    public Object symmetricDifference(Object data) throws IllegalArgumentException {\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        Tuple tuple = (Tuple) data;\n        Tuple result = new Tuple();\n        for (int i = 0; i < this.length(); i++) {\n            if (!tuple.contains(this.getValue(i))) {\n                result.push(this.getValue(i));\n            }\n        }\n        for (int i = 0; i < tuple.length(); i++) {\n            if (!this.contains(tuple.getValue(i))) {\n                result.push(tuple.getValue(i));\n            }\n        }\n        return result;\n    }\n\n    /**\n     * Subtracts the given tuple from this tuple\n     *\n     * @param data the tuple\n     * @return the result\n     */\n    @Override\n    public Object subtract(Object data) throws IllegalArgumentException {\n        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }\n        Tuple tmp = (Tuple) data;\n        Tuple result = new Tuple();\n        for (int i = 0; i < this.length(); i++) {\n            if (!tmp.contains(this.getValue(i))){\n                result.push(this.getValue(i));\n            }\n        }\n        return result;\n    }\n\n    /**\n     * Filters the elements of the tuple.Tuple based on the given predicate.\n     *\n     * @param predicate the predicate used to filter the elements of the tuple.Tuple\n     * @return the filtered tuple.Tuple\n     */\n    @Override\n    public Object filter(Predicate<Object> predicate){\n        Tuple result = new Tuple();\n        IntStream.range(\n                0,\n                this.length()\n        )\n        .filter(\n            i -> predicate.test(this.getValue(i))\n        ).mapToObj(\n                this::getValue\n        ).forEachOrdered(result::push);\n\n        return result;\n    }\n\n    /**\n     * Returns an iterator over elements of type {@code T}.\n     *\n     * @return an Iterator.\n     * @since 1.0\n     */\n    @Override\n    public Iterator<Object> iterator() {\n        return new Iterator<>() {\n            private int currentIndex = 0;\n\n            @Override\n            public boolean hasNext() {\n                return currentIndex < length() && values[currentIndex] != null;\n            }\n\n            @Override\n            public Object next() {\n                if (!hasNext()) { throw new NoSuchElementException(); }\n                return values[currentIndex++];\n            }\n        };\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ch/mazluc/Tuple.java b/src/main/java/ch/mazluc/Tuple.java
+--- a/src/main/java/ch/mazluc/Tuple.java	(revision bedc40a42ca05840bc86a92737095a9b24272743)
++++ b/src/main/java/ch/mazluc/Tuple.java	(date 1702712403830)
+@@ -32,7 +32,9 @@
+ import static java.lang.System.arraycopy;
+ 
+ /**
+- * This class represents a tuple of values
++ * <h1>
++ * Tuple
++ * </h1>
+  *
+  * @author Luca Mazza
+  * @version 1.0
+@@ -40,7 +42,7 @@
+  */
+ public class Tuple implements Data {
+ 
+-    private static final String OINAT = "Object is not a tuple";
++    private static final String NOT_A_TUPLE = "Object is not a tuple";
+ 
+     private static final Random random = new Random();
+     /**
+@@ -451,7 +453,7 @@
+      * @since 1.0
+      */
+     public void split(int index, Object data) throws IllegalArgumentException {
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (index > this.values.length) {
+             index = this.values.length;
+         }
+@@ -545,7 +547,7 @@
+      */
+     @Override
+     public boolean isSubsetOf(Object data) throws IllegalArgumentException{
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (this.length() > ((Tuple) data).length()) {
+             return false;
+         }
+@@ -566,7 +568,7 @@
+      */
+     @Override
+     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (this.length() < ((Tuple) data).length()) {
+             return false;
+         }
+@@ -583,7 +585,7 @@
+      * @return true if this set is a strict superset of the given tuple, false otherwise
+      */
+     public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (this.length() < ((Tuple) data).length()) {
+             return false;
+         }
+@@ -608,7 +610,7 @@
+      * @return true if this set is a strict subset of the given tuple, false otherwise
+      */
+     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (this.length() > ((Tuple) data).length()) {
+             return false;
+         }
+@@ -632,7 +634,7 @@
+      */
+     @Override
+     public boolean isDisjoint(Object data) throws IllegalArgumentException{
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         if (data.equals(this)) {
+             return false;
+         }
+@@ -654,7 +656,7 @@
+      * @return the symmetric difference
+      */
+     public Object symmetricDifference(Object data) throws IllegalArgumentException {
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         Tuple tuple = (Tuple) data;
+         Tuple result = new Tuple();
+         for (int i = 0; i < this.length(); i++) {
+@@ -678,7 +680,7 @@
+      */
+     @Override
+     public Object subtract(Object data) throws IllegalArgumentException {
+-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
++        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
+         Tuple tmp = (Tuple) data;
+         Tuple result = new Tuple();
+         for (int i = 0; i < this.length(); i++) {
+Index: src/test/java/ch/mazluc/BCMLDocumentTest.java
+===================================================================
+diff --git a/src/test/java/ch/mazluc/BCMLDocumentTest.java b/src/test/java/ch/mazluc/BCMLDocumentTest.java
+deleted file mode 100644
+--- a/src/test/java/ch/mazluc/BCMLDocumentTest.java	(revision bedc40a42ca05840bc86a92737095a9b24272743)
++++ /dev/null	(revision bedc40a42ca05840bc86a92737095a9b24272743)
+@@ -1,66 +0,0 @@
+-/*
+- * MIT License
+- *
+- * Copyright (c) 2023 Luca Mazza
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in all
+- * copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+- * SOFTWARE.
+- */
+-package ch.mazluc;
+-
+-import org.junit.jupiter.api.Test;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+-
+-class BCMLDocumentTest {
+-
+-    @Test
+-    void lineCount() {
+-        BCMLDocument<Integer> document = new BCMLDocument<>();
+-        assertEquals(0, document.lineCount());
+-        document.append(new Line<>(3,"First line"));
+-        assertEquals(1, document.lineCount());
+-    }
+-
+-    @Test
+-    void isEmpty() {
+-        BCMLDocument<Integer> document = new BCMLDocument<>();
+-        assertTrue(document.isEmpty());
+-        document.append(new Line<>(3,"First line"));
+-        assertFalse(document.isEmpty());
+-    }
+-
+-    @Test
+-    void getLine() {
+-    }
+-
+-    @Test
+-    void append() {
+-    }
+-
+-    @Test
+-    void clear() {
+-    }
+-
+-    @Test
+-    void serialize() {
+-    }
+-
+-    @Test
+-    void iterator() {
+-    }
+-}
+\ No newline at end of file
+Index: .idea/sonarlint/issuestore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nR\n\"src/main/java/ch/mazluc/Tuple.java\u0012,a/8/a84756550be34ae47d2dd29f19ed4609f6a2a974\nQ\n!src/main/java/ch/mazluc/Data.java\u0012,c/4/c4cdac5d06bef18a37b82eb82f6d9ed1c5c59e78\nR\n\"src/main/java/ch/mazluc/Table.java\u0012,3/6/36183789120773293e7f995870d67508d5889165\nY\n)src/main/java/ch/mazluc/BCMLDocument.java\u0012,2/c/2c8486eff82b6c90927fbd2eb9ff63f9454c98fe\nV\n&src/test/java/ch/mazluc/TupleTest.java\u0012,b/b/bba679067b65ce70874f83230e19378d24b8a65a\nS\n#.idea/sonarlint/issuestore/index.pb\u0012,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\n]\n-.idea/sonarlint/securityhotspotstore/index.pb\u0012,8/8/88a9255124c95bdc913197c120a8d560edc59c8e\nV\n&src/test/java/ch/mazluc/TableTest.java\u0012,d/a/da23e12da5a2702c90fad265208b9a4822576088\nU\n%src/main/java/ch/mazluc/Document.java\u0012,9/0/90a8657460a5659875273732fe34e802c1653eb6\nQ\n!src/main/java/ch/mazluc/Line.java\u0012,b/2/b258b6a8cc6455b1657524519494310792214207\nW\n'src/main/java/ch/mazluc/StringTool.java\u0012,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82\n<\n\fbuild.gradle\u0012,f/0/f07866736216be0ee2aba49e392191aeae700a35\n]\n-src/test/java/ch/mazluc/BCMLDocumentTest.java\u0012,b/0/b073854253e8935f3fbc9269992103ae2e046bae\nG\n\u0017.idea/modules/BData.iml\u0012,f/1/f102aa3afec92ae50f45bf7d528aea5a0ad725ce\nL\n\u001C.idea/modules/BData.main.iml\u0012,c/b/cb567570a6ae71af363d7384d5f3ff6a71cedd1b\nL\n\u001C.idea/modules/BData.test.iml\u0012,2/3/236cbafef934f95d623523fe042467138643c549
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/issuestore/index.pb b/.idea/sonarlint/issuestore/index.pb
+--- a/.idea/sonarlint/issuestore/index.pb	(revision bedc40a42ca05840bc86a92737095a9b24272743)
++++ b/.idea/sonarlint/issuestore/index.pb	(date 1702712398959)
+@@ -23,8 +23,6 @@
+ 'src/main/java/ch/mazluc/StringTool.java,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82
+ <
+ build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
+-]
+--src/test/java/ch/mazluc/BCMLDocumentTest.java,b/0/b073854253e8935f3fbc9269992103ae2e046bae
+ G
+ .idea/modules/BData.iml,f/1/f102aa3afec92ae50f45bf7d528aea5a0ad725ce
+ L
+Index: .idea/sonarlint/securityhotspotstore/index.pb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nR\n\"src/main/java/ch/mazluc/Tuple.java\u0012,a/8/a84756550be34ae47d2dd29f19ed4609f6a2a974\nQ\n!src/main/java/ch/mazluc/Data.java\u0012,c/4/c4cdac5d06bef18a37b82eb82f6d9ed1c5c59e78\nR\n\"src/main/java/ch/mazluc/Table.java\u0012,3/6/36183789120773293e7f995870d67508d5889165\nY\n)src/main/java/ch/mazluc/BCMLDocument.java\u0012,2/c/2c8486eff82b6c90927fbd2eb9ff63f9454c98fe\nV\n&src/test/java/ch/mazluc/TupleTest.java\u0012,b/b/bba679067b65ce70874f83230e19378d24b8a65a\nS\n#.idea/sonarlint/issuestore/index.pb\u0012,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0\n]\n-.idea/sonarlint/securityhotspotstore/index.pb\u0012,8/8/88a9255124c95bdc913197c120a8d560edc59c8e\nV\n&src/test/java/ch/mazluc/TableTest.java\u0012,d/a/da23e12da5a2702c90fad265208b9a4822576088\nU\n%src/main/java/ch/mazluc/Document.java\u0012,9/0/90a8657460a5659875273732fe34e802c1653eb6\nQ\n!src/main/java/ch/mazluc/Line.java\u0012,b/2/b258b6a8cc6455b1657524519494310792214207\nW\n'src/main/java/ch/mazluc/StringTool.java\u0012,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82\n<\n\fbuild.gradle\u0012,f/0/f07866736216be0ee2aba49e392191aeae700a35\n]\n-src/test/java/ch/mazluc/BCMLDocumentTest.java\u0012,b/0/b073854253e8935f3fbc9269992103ae2e046bae\nG\n\u0017.idea/modules/BData.iml\u0012,f/1/f102aa3afec92ae50f45bf7d528aea5a0ad725ce\nL\n\u001C.idea/modules/BData.main.iml\u0012,c/b/cb567570a6ae71af363d7384d5f3ff6a71cedd1b\nL\n\u001C.idea/modules/BData.test.iml\u0012,2/3/236cbafef934f95d623523fe042467138643c549
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/sonarlint/securityhotspotstore/index.pb b/.idea/sonarlint/securityhotspotstore/index.pb
+--- a/.idea/sonarlint/securityhotspotstore/index.pb	(revision bedc40a42ca05840bc86a92737095a9b24272743)
++++ b/.idea/sonarlint/securityhotspotstore/index.pb	(date 1702712398960)
+@@ -23,8 +23,6 @@
+ 'src/main/java/ch/mazluc/StringTool.java,d/b/dbe6783726ee199f1dc877d0b419900d5d7a3e82
+ <
+ build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
+-]
+--src/test/java/ch/mazluc/BCMLDocumentTest.java,b/0/b073854253e8935f3fbc9269992103ae2e046bae
+ G
+ .idea/modules/BData.iml,f/1/f102aa3afec92ae50f45bf7d528aea5a0ad725ce
+ L
