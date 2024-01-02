@@ -30,7 +30,7 @@ datas.add(table3); // Works
 datas.add(tuple4); // Works
 ```
 
-> Many more features are to come, be patient. If you have an enquiry, an idea, or you just want to help me out please submit via issue. 
+> If you have an enquiry, an idea, or you just want to help me out please submit via issue. 
 
 ## Requirements
 
