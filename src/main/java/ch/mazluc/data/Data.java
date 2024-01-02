@@ -24,10 +24,6 @@ import java.util.function.Predicate;
  * SOFTWARE.
  */
 /**
- * <h1>
- * Data
- * </h1>
- *
  * <p>
  * Represents a data structure.
  * A data structure is a collection of values.

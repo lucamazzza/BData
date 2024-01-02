@@ -31,10 +31,6 @@ import static java.lang.System.arraycopy;
  * SOFTWARE.
  */
 /**
- * <h1>
- * Tuple
- * </h1>
- *
  * <p>
  * This class represents a tuple of values.
  * A tuple is a sequence of values that can be
@@ -68,7 +64,7 @@ public class Tuple implements Data {
     /**
      * Message when an object is not a tuple
      */
-    private static final String OINAT = "Object is not a tuple";
+    private static final String NOT_A_TUPLE = "Object is not a tuple";
 
     /**
      * Random generator.
@@ -484,7 +480,7 @@ public class Tuple implements Data {
      * 
      */
     public void split(int index, Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (index > this.values.length) {
             index = this.values.length;
         }
@@ -578,7 +574,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (this.length() > ((Tuple) data).length()) {
             return false;
         }
@@ -599,7 +595,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (this.length() < ((Tuple) data).length()) {
             return false;
         }
@@ -616,7 +612,7 @@ public class Tuple implements Data {
      * @return true if this set is a strict superset of the given tuple, false otherwise
      */
     public boolean isStrictSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (this.length() < ((Tuple) data).length()) {
             return false;
         }
@@ -641,7 +637,7 @@ public class Tuple implements Data {
      * @return true if this set is a strict subset of the given tuple, false otherwise
      */
     public boolean isStrictSubsetOf(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (this.length() > ((Tuple) data).length()) {
             return false;
         }
@@ -665,7 +661,7 @@ public class Tuple implements Data {
      */
     @Override
     public boolean isDisjoint(Object data) throws IllegalArgumentException{
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         if (data.equals(this)) {
             return false;
         }
@@ -687,7 +683,7 @@ public class Tuple implements Data {
      * @return the symmetric difference
      */
     public Object symmetricDifference(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         Tuple tuple = (Tuple) data;
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {
@@ -711,7 +707,7 @@ public class Tuple implements Data {
      */
     @Override
     public Object subtract(Object data) throws IllegalArgumentException {
-        if (!isTuple(data)){ throw new IllegalArgumentException(OINAT); }
+        if (!isTuple(data)){ throw new IllegalArgumentException(NOT_A_TUPLE); }
         Tuple tmp = (Tuple) data;
         Tuple result = new Tuple();
         for (int i = 0; i < this.length(); i++) {

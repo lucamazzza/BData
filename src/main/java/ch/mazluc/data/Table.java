@@ -28,10 +28,6 @@ import static java.lang.System.arraycopy;
  * SOFTWARE.
  */
 /**
- * <h1>
- * Table
- * </h1>
- *
  * <p>
  * Represents a table.
  * A table is a collection of tuples.
@@ -64,12 +60,12 @@ public class Table implements Data{
     /**
      * Message when an index is out of bounds
      */
-    private static final String IOOBE = "Index out of bounds for length ";
+    private static final String OUT_OF_BOUNDS = "Index out of bounds for length ";
 
     /**
      * Message when an object is not a table
      */
-    private static final String OINAT = "Object is not a table";
+    private static final String NOT_A_TABLE = "Object is not a table";
 
     /**
      * The values of the table
@@ -92,7 +88,7 @@ public class Table implements Data{
     }
 
     private static boolean isTable(Object o) {
-        return o.getClass() == Table.class;
+        return Table.class == o.getClass();
     }
 
     /**
@@ -117,17 +113,22 @@ public class Table implements Data{
 
     @Override
     public boolean equals(Object o) throws IllegalArgumentException {
-        if (!isTable(o)) { throw new IllegalArgumentException(OINAT); }
-        Table table = (Table) o;
-        if (this.length() != table.length()) {
+        if (o == this)
+            return true;
+        if (o == null)
             return false;
-        }
-        for (int i = 0; i < this.length(); i++) {
-            if (!this.values[i].equals(table.values[i])) {
+        if (isTable(o)) {
+            Table table = (Table) o;
+            if (this.length() != table.length()) {
                 return false;
             }
-        }
-        return true;
+            for (int i = 0; i < this.length(); i++) {
+                if (!this.values[i].equals(table.values[i])) {
+                    return false;
+                }
+            }
+            return true;
+        } else throw new IllegalArgumentException(NOT_A_TABLE);
     }
 
     @Override
@@ -207,7 +208,7 @@ public class Table implements Data{
      */
     public <T> void insert(int row, int col, T value) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
+            throw new IndexOutOfBoundsException(OUT_OF_BOUNDS + this.values.length);
         }
         this.values[row].insert(col, value);
     }
@@ -221,7 +222,7 @@ public class Table implements Data{
      */
     public <T> void replace(int row, int col, T value) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
+            throw new IndexOutOfBoundsException(OUT_OF_BOUNDS + this.values.length);
         }
         this.values[row].replace(col, value);
     }
@@ -235,7 +236,7 @@ public class Table implements Data{
     @Override
     public void swap(int index1, int index2) throws IndexOutOfBoundsException {
         if (index1 < 0 || index2 < 0 || index1 >= this.values.length || index2 >= this.values.length) {
-            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
+            throw new IndexOutOfBoundsException(OUT_OF_BOUNDS + this.values.length);
         }
         Tuple temp = this.values[index1];
         this.values[index1] = this.values[index2];
@@ -251,7 +252,7 @@ public class Table implements Data{
      */
     public <T> T getValue(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
+            throw new IndexOutOfBoundsException(OUT_OF_BOUNDS + this.values.length);
         }
         return this.values[row].getValue(col);
     }
@@ -297,7 +298,7 @@ public class Table implements Data{
      */
     public void remove(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || row >= this.values.length || col < 0 || col >= this.values[row].length()) {
-            throw new IndexOutOfBoundsException(IOOBE + this.values.length);
+            throw new IndexOutOfBoundsException(OUT_OF_BOUNDS + this.values.length);
         }
         this.values[row].remove(col);
     }
@@ -352,7 +353,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isSubsetOf(Object data) throws IllegalArgumentException {
-        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
+        if (!isTable(data)) { throw new IllegalArgumentException(NOT_A_TABLE); }
         Table table = (Table) data;
         if (this.length() > table.length()) {
             return false;
@@ -375,7 +376,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isSupersetOf(Object data) throws IllegalArgumentException {
-        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
+        if (!isTable(data)) { throw new IllegalArgumentException(NOT_A_TABLE); }
         Table table = (Table) data;
         return table.isSubsetOf(this);
     }
@@ -389,7 +390,7 @@ public class Table implements Data{
      */
     @Override
     public Object subtract(Object data) {
-        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
+        if (!isTable(data)) { throw new IllegalArgumentException(NOT_A_TABLE); }
         Table tmp = new Table();
         Table table = (Table) data;
         for (Tuple value : this.values) {
@@ -428,7 +429,7 @@ public class Table implements Data{
      */
     @Override
     public boolean isDisjoint(Object data) {
-        if (!isTable(data)) { throw new IllegalArgumentException(OINAT); }
+        if (!isTable(data)) { throw new IllegalArgumentException(NOT_A_TABLE); }
         Table table = (Table) data;
         for (Tuple value : table.values) {
             for (int i = 0; i < value.length(); i++) {
