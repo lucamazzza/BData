@@ -7,8 +7,6 @@
 BData is a library to manage data using better, dynamic, weakly-typed data types.
 It is written in Java, based on Java's standard Arrays, for high compatibility.
 
-> ⚠️ BData is still in development and is not available yet! Be patient or join my [Discord Community](https://discord.gg/B3yXwmHb2V) to interact with me and contribute.
-
 ## Features
 Currently the features of BData are the following:
 * **`Tuple`**: a structured, heterogeneous data type, representing a Tuple (as seen in Python, Swift and many others), being an "array with multiple types inside".
