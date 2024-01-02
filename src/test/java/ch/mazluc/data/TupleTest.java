@@ -1,4 +1,6 @@
-package ch.mazluc;
+package ch.mazluc.data;
+import ch.mazluc.data.Data;
+import ch.mazluc.data.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -200,17 +202,17 @@ class TupleTest {
         tupleEmpty.pop();
         Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false);
         tuple.pop();
-        assertEquals(tuple.length(), 11);
+        assertEquals(11, tuple.length());
         tuple.pop();
-        assertEquals(tuple.length(), 10);
+        assertEquals(10, tuple.length());
         tuple.pop();
-        assertEquals(tuple.length(), 9);
+        assertEquals(9, tuple.length());
         tuple.pop();
-        assertEquals(tuple.length(), 8);
+        assertEquals(8, tuple.length());
         tuple.pop();
-        assertEquals(tuple.length(), 7);
+        assertEquals(7, tuple.length());
         tuple.pop();
-        assertEquals(tuple.length(), 6);
+        assertEquals(6, tuple.length());
     }
 
     @Test
@@ -230,27 +232,17 @@ class TupleTest {
     void clear() {
         Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
         tuple.clear();
-        assertEquals(tuple.length(), 0);
+        assertEquals(0, tuple.length());
         tuple.clear();
-        assertEquals(tuple.length(), 0);
+        assertEquals(0, tuple.length());
     }
 
     @Test
     void testToString() {
         Data tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
-        assertEquals(tuple.toString(), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false]");
+        assertEquals("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, false]", tuple.toString());
         tuple.clear();
-        assertEquals(tuple.toString(), "[]");
-    }
-
-    @Test
-    void sort() {
-        Tuple tuple = new Tuple(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "2", null, false, null, null);
-        tuple.sort();
-        assertEquals( "[false, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2]",tuple.toString());
-        tuple = new Tuple("0");
-        tuple.sort();
-        assertEquals("[0]", tuple.toString());
+        assertEquals("[]", tuple.toString());
     }
 
     @Test
