@@ -39,3 +39,4 @@ gradlew.*
 
 # End of https://www.gitignore.io/api/java,gradle
 *.pb
+/.idea/*
