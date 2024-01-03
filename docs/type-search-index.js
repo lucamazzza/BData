@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ch.mazluc.data","l":"Data"},{"p":"ch.mazluc.data","l":"Table"},{"p":"ch.mazluc.data","l":"Tuple"}];updateSearchResults();
