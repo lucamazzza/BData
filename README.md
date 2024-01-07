@@ -53,9 +53,6 @@ Under the libraries tab, click 'Add JARs' and select the JAR-File you downloaded
 ![image](https://github.com/lucamazzza/BData/assets/36283355/af31d242-3cc0-42ef-9775-fb5700cf14ba)
 Click then 'Apply and Close' and you are good to go.
 
-## Usage
-
-
 ## Credits
 BData is written and mantained by [Luca Mazza](https://mazluc.ch)
 
